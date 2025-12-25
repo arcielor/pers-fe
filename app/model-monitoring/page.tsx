@@ -18,6 +18,7 @@ import {
     BarChart3,
     GitBranch,
     Zap,
+    Gauge,
 } from "lucide-react";
 import {
     LineChart,
@@ -56,6 +57,7 @@ export default function ModelMonitoringPage() {
                     precision: Math.min(metrics.precision + Math.random() * 2, 99),
                     recall: Math.min(metrics.recall + Math.random() * 2, 99),
                     f1Score: Math.min(metrics.f1Score + Math.random() * 2, 99),
+                    rocAuc: Math.min(metrics.rocAuc + Math.random() * 2, 99),
                     lastUpdated: new Date().toISOString().split("T")[0],
                     version: `2.${parseInt(metrics.version.split(".")[1]) + 1}.0`,
                     trainingDataSize: metrics.trainingDataSize + Math.floor(Math.random() * 500),
@@ -67,6 +69,7 @@ export default function ModelMonitoringPage() {
                             precision: Math.min(metrics.precision + Math.random() * 2, 99),
                             recall: Math.min(metrics.recall + Math.random() * 2, 99),
                             f1Score: Math.min(metrics.f1Score + Math.random() * 2, 99),
+                            rocAuc: Math.min(metrics.rocAuc + Math.random() * 2, 99),
                         },
                     ],
                 };
@@ -95,10 +98,11 @@ export default function ModelMonitoringPage() {
     };
 
     const metricCards = [
-        { name: "Accuracy", value: metrics.accuracy, icon: Target, color: "violet" },
-        { name: "Precision", value: metrics.precision, icon: Zap, color: "blue" },
-        { name: "Recall", value: metrics.recall, icon: TrendingUp, color: "green" },
-        { name: "F1 Score", value: metrics.f1Score, icon: Activity, color: "amber" },
+        { name: "Accuracy", value: metrics.accuracy || 0, icon: Target, color: "violet" },
+        { name: "Precision", value: metrics.precision || 0, icon: Zap, color: "blue" },
+        { name: "Recall", value: metrics.recall || 0, icon: TrendingUp, color: "green" },
+        { name: "F1 Score", value: metrics.f1Score || 0, icon: Activity, color: "amber" },
+        { name: "ROC-AUC", value: metrics.rocAuc || 0, icon: Gauge, color: "rose" },
     ];
 
     return (
@@ -143,7 +147,7 @@ export default function ModelMonitoringPage() {
                 </Card>
 
                 {/* Metric Cards */}
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                     {metricCards.map((metric) => (
                         <Card key={metric.name}>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -226,6 +230,14 @@ export default function ModelMonitoringPage() {
                                                 name="F1 Score"
                                                 dot={{ fill: "#f59e0b" }}
                                             />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="rocAuc"
+                                                stroke="#f43f5e"
+                                                strokeWidth={2}
+                                                name="ROC-AUC"
+                                                dot={{ fill: "#f43f5e" }}
+                                            />
                                         </LineChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -249,6 +261,7 @@ export default function ModelMonitoringPage() {
                                                     { name: "Precision", value: metrics.precision, fill: "#3b82f6" },
                                                     { name: "Recall", value: metrics.recall, fill: "#22c55e" },
                                                     { name: "F1 Score", value: metrics.f1Score, fill: "#f59e0b" },
+                                                    { name: "ROC-AUC", value: metrics.rocAuc, fill: "#f43f5e" },
                                                 ]}
                                             >
                                                 <CartesianGrid strokeDasharray="3 3" />
@@ -306,6 +319,7 @@ export default function ModelMonitoringPage() {
                                                 <TableHead>Precision</TableHead>
                                                 <TableHead>Recall</TableHead>
                                                 <TableHead>F1 Score</TableHead>
+                                                <TableHead>ROC-AUC</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -328,6 +342,9 @@ export default function ModelMonitoringPage() {
                                                     </TableCell>
                                                     <TableCell className={getMetricColor(record.f1Score)}>
                                                         {record.f1Score.toFixed(1)}%
+                                                    </TableCell>
+                                                    <TableCell className={getMetricColor(record.rocAuc)}>
+                                                        {record.rocAuc.toFixed(1)}%
                                                     </TableCell>
                                                 </TableRow>
                                             ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Employee, Intervention, ModelMetrics, HRISImport } from "./types";
+import { Employee, Intervention, ModelMetrics, HRISImport, ResignationRecord, ManagerAssessment, RecommendedIntervention, RiskFactors, InterventionOutcome } from "./types";
 
 // Default mock employees
 const defaultEmployees: Employee[] = [
@@ -911,14 +911,15 @@ const defaultModelMetrics: ModelMetrics = {
   precision: 84.2,
   recall: 89.1,
   f1Score: 86.6,
+  rocAuc: 91.2,
   lastUpdated: "2024-02-15",
   version: "2.1.0",
   trainingDataSize: 15420,
   history: [
-    { date: "2024-01-01", accuracy: 82.3, precision: 79.5, recall: 85.2, f1Score: 82.2 },
-    { date: "2024-01-15", accuracy: 84.1, precision: 81.0, recall: 86.8, f1Score: 83.8 },
-    { date: "2024-02-01", accuracy: 86.0, precision: 83.5, recall: 88.2, f1Score: 85.8 },
-    { date: "2024-02-15", accuracy: 87.5, precision: 84.2, recall: 89.1, f1Score: 86.6 },
+    { date: "2024-01-01", accuracy: 82.3, precision: 79.5, recall: 85.2, f1Score: 82.2, rocAuc: 86.5 },
+    { date: "2024-01-15", accuracy: 84.1, precision: 81.0, recall: 86.8, f1Score: 83.8, rocAuc: 88.2 },
+    { date: "2024-02-01", accuracy: 86.0, precision: 83.5, recall: 88.2, f1Score: 85.8, rocAuc: 89.8 },
+    { date: "2024-02-15", accuracy: 87.5, precision: 84.2, recall: 89.1, f1Score: 86.6, rocAuc: 91.2 },
   ],
 };
 
@@ -940,7 +941,7 @@ const defaultImports: HRISImport[] = [
 ];
 
 // Data version - increment this to force localStorage reset when defaults change
-const DATA_VERSION = "3.0";
+const DATA_VERSION = "3.1";
 const DATA_VERSION_KEY = "pers_data_version";
 
 // Storage keys
@@ -949,6 +950,8 @@ const STORAGE_KEYS = {
   interventions: "pers_interventions",
   modelMetrics: "pers_model_metrics",
   imports: "pers_imports",
+  resignations: "pers_resignations",
+  managerAssessments: "pers_manager_assessments",
 };
 
 // Helper to check if we're in browser
@@ -1087,6 +1090,22 @@ export function deleteImport(importId: string): boolean {
   return false;
 }
 
+export function updateImportCategory(
+  importId: string,
+  category: HRISImport["dataCategory"],
+  confidence?: number
+): boolean {
+  const imports = getImports();
+  const index = imports.findIndex((imp) => imp.id === importId);
+  if (index >= 0) {
+    imports[index].dataCategory = category;
+    imports[index].categoryConfidence = confidence ?? 100;
+    saveToStorage(STORAGE_KEYS.imports, imports);
+    return true;
+  }
+  return false;
+}
+
 // Risk distribution stats
 export function getRiskDistribution(): { high: number; medium: number; low: number } {
   const employees = getEmployees();
@@ -1156,6 +1175,222 @@ export function getTopContributingFactors(): { name: string; value: number; labe
 export function getTopRiskEmployees(count: number = 5): Employee[] {
   const employees = getEmployees();
   return employees
+    .filter(e => !e.hasResigned) // Exclude resigned employees
     .sort((a, b) => b.riskScore - a.riskScore)
     .slice(0, count);
+}
+
+// ============ RESIGNATION TRACKING ============
+
+const defaultResignations: ResignationRecord[] = [];
+
+export function getResignations(): ResignationRecord[] {
+  return getFromStorage(STORAGE_KEYS.resignations, defaultResignations);
+}
+
+export function getResignationByEmployee(employeeId: string): ResignationRecord | undefined {
+  const resignations = getResignations();
+  return resignations.find(r => r.employeeId === employeeId);
+}
+
+export function addResignation(resignation: Omit<ResignationRecord, "id">): ResignationRecord {
+  const resignations = getResignations();
+  const newId = `RES${String(resignations.length + 1).padStart(3, "0")}`;
+  const newResignation = { ...resignation, id: newId } as ResignationRecord;
+  resignations.push(newResignation);
+  saveToStorage(STORAGE_KEYS.resignations, resignations);
+
+  // Update employee record
+  const employee = getEmployeeById(resignation.employeeId);
+  if (employee) {
+    updateEmployee({
+      ...employee,
+      hasResigned: true,
+      resignationId: newId,
+    });
+  }
+
+  return newResignation;
+}
+
+// ============ MANAGER ASSESSMENTS ============
+
+const defaultManagerAssessments: ManagerAssessment[] = [];
+
+export function getManagerAssessments(): ManagerAssessment[] {
+  return getFromStorage(STORAGE_KEYS.managerAssessments, defaultManagerAssessments);
+}
+
+export function getAssessmentsByEmployee(employeeId: string): ManagerAssessment[] {
+  const assessments = getManagerAssessments();
+  return assessments
+    .filter(a => a.employeeId === employeeId)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export function addManagerAssessment(assessment: Omit<ManagerAssessment, "id">): ManagerAssessment {
+  const assessments = getManagerAssessments();
+  const newId = `ASS${String(assessments.length + 1).padStart(3, "0")}`;
+  const newAssessment = { ...assessment, id: newId } as ManagerAssessment;
+  assessments.push(newAssessment);
+  saveToStorage(STORAGE_KEYS.managerAssessments, assessments);
+  return newAssessment;
+}
+
+// ============ INTERVENTION OUTCOMES ============
+
+export function updateInterventionOutcome(interventionId: string, outcome: InterventionOutcome): void {
+  const interventions = getInterventions();
+  const index = interventions.findIndex(int => int.id === interventionId);
+  if (index >= 0) {
+    interventions[index].interventionOutcome = outcome;
+    saveToStorage(STORAGE_KEYS.interventions, interventions);
+  }
+}
+
+export function getInterventionOutcomeStats(): {
+  total: number;
+  stayed: number;
+  left: number;
+  pending: number;
+  successRate: number;
+} {
+  const interventions = getInterventions();
+  const completed = interventions.filter(i => i.status === "completed");
+  const stayed = completed.filter(i => i.interventionOutcome === "stayed").length;
+  const left = completed.filter(i => i.interventionOutcome === "left").length;
+  const pending = completed.filter(i => !i.interventionOutcome || i.interventionOutcome === "pending").length;
+
+  const decided = stayed + left;
+  const successRate = decided > 0 ? Math.round((stayed / decided) * 100) : 0;
+
+  return {
+    total: completed.length,
+    stayed,
+    left,
+    pending,
+    successRate,
+  };
+}
+
+// ============ RECOMMENDED INTERVENTIONS ============
+
+export function getRecommendedInterventions(employee: Employee): RecommendedIntervention[] {
+  const recommendations: RecommendedIntervention[] = [];
+  const { riskFactors } = employee;
+
+  // Overtime-based recommendation
+  if (riskFactors.overtime >= 70) {
+    recommendations.push({
+      type: "workload_adjustment",
+      title: "Workload Redistribution",
+      description: "Implement workload balancing to reduce excessive overtime hours. Consider hiring additional team members or redistributing tasks.",
+      priority: "high",
+      basedOnFactor: "overtime",
+    });
+  } else if (riskFactors.overtime >= 50) {
+    recommendations.push({
+      type: "workload_adjustment",
+      title: "Overtime Monitoring",
+      description: "Set up overtime tracking and establish limits. Review project timelines and resource allocation.",
+      priority: "medium",
+      basedOnFactor: "overtime",
+    });
+  }
+
+  // Compensation-based recommendation
+  if (riskFactors.compensation >= 70) {
+    recommendations.push({
+      type: "compensation",
+      title: "Compensation Review",
+      description: "Conduct a market salary analysis and consider immediate compensation adjustment to match industry standards.",
+      priority: "high",
+      basedOnFactor: "compensation",
+    });
+  } else if (riskFactors.compensation >= 50) {
+    recommendations.push({
+      type: "compensation",
+      title: "Benefits Enhancement",
+      description: "Review total compensation package including bonuses, benefits, and non-monetary perks.",
+      priority: "medium",
+      basedOnFactor: "compensation",
+    });
+  }
+
+  // Satisfaction-based recommendation
+  if (riskFactors.satisfaction >= 70) {
+    recommendations.push({
+      type: "other",
+      title: "Employee Engagement Initiative",
+      description: "Schedule one-on-one meetings to understand concerns. Consider role adjustments or team transfers based on feedback.",
+      priority: "high",
+      basedOnFactor: "satisfaction",
+    });
+  } else if (riskFactors.satisfaction >= 50) {
+    recommendations.push({
+      type: "other",
+      title: "Satisfaction Survey Follow-up",
+      description: "Conduct personal check-in to discuss job satisfaction factors and identify improvement areas.",
+      priority: "medium",
+      basedOnFactor: "satisfaction",
+    });
+  }
+
+  // Growth-based recommendation
+  if (riskFactors.growth >= 70) {
+    recommendations.push({
+      type: "career_development",
+      title: "Career Path Planning",
+      description: "Develop a clear career progression plan with timeline. Consider promotion opportunities or lateral moves for skill expansion.",
+      priority: "high",
+      basedOnFactor: "growth",
+    });
+  } else if (riskFactors.growth >= 50) {
+    recommendations.push({
+      type: "training",
+      title: "Skills Development Program",
+      description: "Enroll in relevant training programs or certifications. Assign stretch projects for career growth.",
+      priority: "medium",
+      basedOnFactor: "growth",
+    });
+  }
+
+  // Work-life balance recommendation
+  if (riskFactors.workLifeBalance >= 70) {
+    recommendations.push({
+      type: "workload_adjustment",
+      title: "Flexible Work Arrangement",
+      description: "Implement remote work options or flexible hours. Review workload and deadlines to improve work-life balance.",
+      priority: "high",
+      basedOnFactor: "workLifeBalance",
+    });
+  } else if (riskFactors.workLifeBalance >= 50) {
+    recommendations.push({
+      type: "other",
+      title: "Work-Life Balance Assessment",
+      description: "Review current work patterns and identify areas for improvement. Consider wellness programs.",
+      priority: "medium",
+      basedOnFactor: "workLifeBalance",
+    });
+  }
+
+  // Sort by priority (high first)
+  const priorityOrder = { high: 0, medium: 1, low: 2 };
+  return recommendations.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+}
+
+// Get all high-risk employees with their recommendations
+export function getHighRiskEmployeesWithRecommendations(): Array<{
+  employee: Employee;
+  recommendations: RecommendedIntervention[];
+}> {
+  const employees = getEmployees();
+  const highRiskEmployees = employees
+    .filter(e => e.riskLevel === "high" && !e.hasResigned)
+    .sort((a, b) => b.riskScore - a.riskScore);
+
+  return highRiskEmployees.map(employee => ({
+    employee,
+    recommendations: getRecommendedInterventions(employee),
+  }));
 }

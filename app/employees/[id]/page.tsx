@@ -8,10 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
     ArrowLeft,
     Mail,
@@ -31,6 +34,8 @@ import {
     X,
     Lightbulb,
     CheckCircle2,
+    ClipboardCheck,
+    UserX,
 } from "lucide-react";
 import {
     RadarChart,
@@ -46,23 +51,67 @@ import {
     CartesianGrid,
     Tooltip,
 } from "recharts";
-import { getEmployeeById, getInterventionsByEmployeeId, updateEmployee } from "@/lib/data/store";
-import { Employee, Intervention, JobLevel } from "@/lib/data/types";
+import { getEmployeeById, getInterventionsByEmployeeId, updateEmployee, getAssessmentsByEmployee, getResignationByEmployee, addManagerAssessment, addResignation } from "@/lib/data/store";
+import { Employee, Intervention, JobLevel, ManagerAssessment, ResignationRecord, RiskLevel, ResignationReason } from "@/lib/data/types";
 
 export default function EmployeeProfilePage() {
     const params = useParams();
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [interventions, setInterventions] = useState<Intervention[]>([]);
+    const [assessments, setAssessments] = useState<ManagerAssessment[]>([]);
+    const [resignation, setResignation] = useState<ResignationRecord | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState<Employee | null>(null);
+    const [showAssessmentDialog, setShowAssessmentDialog] = useState(false);
+    const [showResignationDialog, setShowResignationDialog] = useState(false);
 
-    useEffect(() => {
+    // Assessment form state
+    const [assessmentForm, setAssessmentForm] = useState({
+        assessorName: "",
+        assessorRole: "",
+        overallRating: 3,
+        riskConcerns: "",
+        strengths: "",
+        areasForImprovement: "",
+        retentionRisk: "medium" as RiskLevel,
+        recommendedActions: "",
+    });
+
+    // Resignation form state
+    const [resignationForm, setResignationForm] = useState({
+        resignationDate: new Date().toISOString().split("T")[0],
+        lastWorkingDate: "",
+        reasons: [] as ResignationReason[],
+        feedback: "",
+        exitInterviewNotes: "",
+    });
+
+    const resignationReasonLabels: Record<ResignationReason, string> = {
+        better_opportunity: "Better Opportunity",
+        compensation: "Compensation Issues",
+        work_life_balance: "Work-Life Balance",
+        career_growth: "Career Growth",
+        management: "Management Issues",
+        relocation: "Relocation",
+        personal: "Personal Reasons",
+        retirement: "Retirement",
+        health: "Health Reasons",
+        other: "Other",
+    };
+
+    const loadData = () => {
         const emp = getEmployeeById(params.id as string);
         if (emp) {
             setEmployee(emp);
             setEditForm(emp);
             setInterventions(getInterventionsByEmployeeId(emp.id));
+            setAssessments(getAssessmentsByEmployee(emp.id));
+            setResignation(getResignationByEmployee(emp.id) || null);
         }
+    };
+
+    useEffect(() => {
+        loadData();
     }, [params.id]);
 
     const handleEdit = () => {
@@ -87,6 +136,52 @@ export default function EmployeeProfilePage() {
         if (editForm) {
             setEditForm({ ...editForm, [field]: value });
         }
+    };
+
+    const handleAddAssessment = () => {
+        if (!assessmentForm.assessorName || !assessmentForm.assessorRole) return;
+
+        addManagerAssessment({
+            employeeId: params.id as string,
+            ...assessmentForm,
+            date: new Date().toISOString().split("T")[0],
+        });
+
+        setShowAssessmentDialog(false);
+        setAssessmentForm({
+            assessorName: "",
+            assessorRole: "",
+            overallRating: 3,
+            riskConcerns: "",
+            strengths: "",
+            areasForImprovement: "",
+            retentionRisk: "medium",
+            recommendedActions: "",
+        });
+        loadData();
+    };
+
+    const handleRecordResignation = () => {
+        if (!resignationForm.lastWorkingDate || resignationForm.reasons.length === 0) return;
+
+        addResignation({
+            employeeId: params.id as string,
+            ...resignationForm,
+            wasHighRisk: employee?.riskLevel === "high",
+            hadIntervention: interventions.length > 0,
+        });
+
+        setShowResignationDialog(false);
+        loadData();
+    };
+
+    const toggleResignationReason = (reason: ResignationReason) => {
+        setResignationForm(prev => ({
+            ...prev,
+            reasons: prev.reasons.includes(reason)
+                ? prev.reasons.filter(r => r !== reason)
+                : [...prev.reasons, reason],
+        }));
     };
 
     if (!employee) {
@@ -636,6 +731,10 @@ export default function EmployeeProfilePage() {
                             <AlertTriangle className="h-4 w-4" />
                             Risk Factors
                         </TabsTrigger>
+                        <TabsTrigger value="assessments" className="gap-2">
+                            <ClipboardCheck className="h-4 w-4" />
+                            Assessments ({assessments.length})
+                        </TabsTrigger>
                         <TabsTrigger value="interventions" className="gap-2">
                             <HeartHandshake className="h-4 w-4" />
                             Interventions
@@ -758,6 +857,304 @@ export default function EmployeeProfilePage() {
                                         <p className="text-sm mt-1">
                                             {displayData.name}'s risk factors are within acceptable ranges. Continue monitoring and maintaining current practices.
                                         </p>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Assessments Tab */}
+                    <TabsContent value="assessments" className="space-y-4">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h3 className="text-lg font-semibold">Manager Assessments</h3>
+                                <p className="text-sm text-muted-foreground">Track manager and HR observations about this employee</p>
+                            </div>
+                            <div className="flex gap-2">
+                                {!employee.hasResigned && (
+                                    <>
+                                        <Dialog open={showAssessmentDialog} onOpenChange={setShowAssessmentDialog}>
+                                            <DialogTrigger asChild>
+                                                <Button variant="outline" className="gap-2">
+                                                    <ClipboardCheck className="h-4 w-4" />
+                                                    Add Assessment
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+                                                <DialogHeader>
+                                                    <DialogTitle>Manager Assessment</DialogTitle>
+                                                    <DialogDescription>
+                                                        Record your assessment of {displayData.name}&apos;s retention risk
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="space-y-4 py-4">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-2">
+                                                            <label className="text-sm font-medium">Your Name</label>
+                                                            <Input
+                                                                value={assessmentForm.assessorName}
+                                                                onChange={e => setAssessmentForm(prev => ({ ...prev, assessorName: e.target.value }))}
+                                                                placeholder="Enter your name"
+                                                            />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <label className="text-sm font-medium">Your Role</label>
+                                                            <Input
+                                                                value={assessmentForm.assessorRole}
+                                                                onChange={e => setAssessmentForm(prev => ({ ...prev, assessorRole: e.target.value }))}
+                                                                placeholder="e.g., Direct Manager"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-2">
+                                                            <label className="text-sm font-medium">Overall Rating (1-5)</label>
+                                                            <Select
+                                                                value={String(assessmentForm.overallRating)}
+                                                                onValueChange={v => setAssessmentForm(prev => ({ ...prev, overallRating: parseInt(v) }))}
+                                                            >
+                                                                <SelectTrigger>
+                                                                    <SelectValue />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    {[1, 2, 3, 4, 5].map(n => (
+                                                                        <SelectItem key={n} value={String(n)}>{n} {n === 1 ? "(Low)" : n === 5 ? "(High)" : ""}</SelectItem>
+                                                                    ))}
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <label className="text-sm font-medium">Retention Risk</label>
+                                                            <Select
+                                                                value={assessmentForm.retentionRisk}
+                                                                onValueChange={v => setAssessmentForm(prev => ({ ...prev, retentionRisk: v as RiskLevel }))}
+                                                            >
+                                                                <SelectTrigger>
+                                                                    <SelectValue />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="low">Low</SelectItem>
+                                                                    <SelectItem value="medium">Medium</SelectItem>
+                                                                    <SelectItem value="high">High</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium">Risk Concerns</label>
+                                                        <Textarea
+                                                            value={assessmentForm.riskConcerns}
+                                                            onChange={e => setAssessmentForm(prev => ({ ...prev, riskConcerns: e.target.value }))}
+                                                            placeholder="What concerns do you have about this employee's retention?"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium">Strengths</label>
+                                                        <Textarea
+                                                            value={assessmentForm.strengths}
+                                                            onChange={e => setAssessmentForm(prev => ({ ...prev, strengths: e.target.value }))}
+                                                            placeholder="What are this employee's key strengths?"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium">Recommended Actions</label>
+                                                        <Textarea
+                                                            value={assessmentForm.recommendedActions}
+                                                            onChange={e => setAssessmentForm(prev => ({ ...prev, recommendedActions: e.target.value }))}
+                                                            placeholder="What actions would you recommend?"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <DialogFooter>
+                                                    <Button variant="outline" onClick={() => setShowAssessmentDialog(false)}>Cancel</Button>
+                                                    <Button onClick={handleAddAssessment}>Submit Assessment</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+
+                                        <Dialog open={showResignationDialog} onOpenChange={setShowResignationDialog}>
+                                            <DialogTrigger asChild>
+                                                <Button variant="destructive" className="gap-2">
+                                                    <UserX className="h-4 w-4" />
+                                                    Record Resignation
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+                                                <DialogHeader>
+                                                    <DialogTitle>Record Resignation</DialogTitle>
+                                                    <DialogDescription>
+                                                        Record the resignation details for {displayData.name}
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="space-y-4 py-4">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-2">
+                                                            <label className="text-sm font-medium">Resignation Date</label>
+                                                            <Input
+                                                                type="date"
+                                                                value={resignationForm.resignationDate}
+                                                                onChange={e => setResignationForm(prev => ({ ...prev, resignationDate: e.target.value }))}
+                                                            />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <label className="text-sm font-medium">Last Working Date</label>
+                                                            <Input
+                                                                type="date"
+                                                                value={resignationForm.lastWorkingDate}
+                                                                onChange={e => setResignationForm(prev => ({ ...prev, lastWorkingDate: e.target.value }))}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium">Resignation Reasons (select all that apply)</label>
+                                                        <div className="grid grid-cols-2 gap-2">
+                                                            {(Object.entries(resignationReasonLabels) as [ResignationReason, string][]).map(([key, label]) => (
+                                                                <Button
+                                                                    key={key}
+                                                                    type="button"
+                                                                    variant={resignationForm.reasons.includes(key) ? "default" : "outline"}
+                                                                    size="sm"
+                                                                    className="justify-start text-xs"
+                                                                    onClick={() => toggleResignationReason(key)}
+                                                                >
+                                                                    {label}
+                                                                </Button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium">Employee Feedback</label>
+                                                        <Textarea
+                                                            value={resignationForm.feedback}
+                                                            onChange={e => setResignationForm(prev => ({ ...prev, feedback: e.target.value }))}
+                                                            placeholder="Any feedback provided by the employee"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-sm font-medium">Exit Interview Notes</label>
+                                                        <Textarea
+                                                            value={resignationForm.exitInterviewNotes}
+                                                            onChange={e => setResignationForm(prev => ({ ...prev, exitInterviewNotes: e.target.value }))}
+                                                            placeholder="Notes from exit interview"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <DialogFooter>
+                                                    <Button variant="outline" onClick={() => setShowResignationDialog(false)}>Cancel</Button>
+                                                    <Button variant="destructive" onClick={handleRecordResignation}>Record Resignation</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Resignation Info (if applicable) */}
+                        {resignation && (
+                            <Card className="border-red-200 bg-red-50/50 dark:bg-red-900/10">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-400">
+                                        <UserX className="h-5 w-5" />
+                                        Resignation Details
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                        <div>
+                                            <p className="text-sm text-muted-foreground">Resignation Date</p>
+                                            <p className="font-medium">{new Date(resignation.resignationDate).toLocaleDateString()}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-muted-foreground">Last Working Date</p>
+                                            <p className="font-medium">{new Date(resignation.lastWorkingDate).toLocaleDateString()}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-muted-foreground">Was High Risk</p>
+                                            <Badge variant={resignation.wasHighRisk ? "destructive" : "success"}>
+                                                {resignation.wasHighRisk ? "Yes" : "No"}
+                                            </Badge>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-muted-foreground">Had Intervention</p>
+                                            <Badge variant={resignation.hadIntervention ? "default" : "outline"}>
+                                                {resignation.hadIntervention ? "Yes" : "No"}
+                                            </Badge>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4">
+                                        <p className="text-sm text-muted-foreground mb-2">Reasons</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {resignation.reasons.map(reason => (
+                                                <Badge key={reason} variant="outline">{resignationReasonLabels[reason]}</Badge>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    {resignation.feedback && (
+                                        <div className="mt-4">
+                                            <p className="text-sm text-muted-foreground mb-1">Feedback</p>
+                                            <p className="text-sm">{resignation.feedback}</p>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* Assessment List */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Assessment History</CardTitle>
+                                <CardDescription>Historical assessments from managers and HR</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {assessments.length > 0 ? (
+                                    <div className="space-y-4">
+                                        {assessments.map(assessment => (
+                                            <div key={assessment.id} className="p-4 bg-muted/50 rounded-lg space-y-3">
+                                                <div className="flex items-center justify-between">
+                                                    <div>
+                                                        <p className="font-medium">{assessment.assessorName}</p>
+                                                        <p className="text-sm text-muted-foreground">{assessment.assessorRole}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="text-sm text-muted-foreground">{new Date(assessment.date).toLocaleDateString()}</p>
+                                                        <Badge variant={getRiskBadgeVariant(assessment.retentionRisk)}>
+                                                            {assessment.retentionRisk} risk
+                                                        </Badge>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    {[1, 2, 3, 4, 5].map(n => (
+                                                        <Star
+                                                            key={n}
+                                                            className={`h-4 w-4 ${n <= assessment.overallRating ? "text-amber-500 fill-amber-500" : "text-gray-300"}`}
+                                                        />
+                                                    ))}
+                                                </div>
+                                                {assessment.riskConcerns && (
+                                                    <div>
+                                                        <p className="text-sm font-medium">Concerns</p>
+                                                        <p className="text-sm text-muted-foreground">{assessment.riskConcerns}</p>
+                                                    </div>
+                                                )}
+                                                {assessment.recommendedActions && (
+                                                    <div>
+                                                        <p className="text-sm font-medium">Recommended Actions</p>
+                                                        <p className="text-sm text-muted-foreground">{assessment.recommendedActions}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-8 text-muted-foreground">
+                                        <ClipboardCheck className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                                        <p>No assessments recorded for this employee yet.</p>
+                                        {!employee.hasResigned && (
+                                            <Button variant="outline" className="mt-4" onClick={() => setShowAssessmentDialog(true)}>
+                                                Add First Assessment
+                                            </Button>
+                                        )}
                                     </div>
                                 )}
                             </CardContent>

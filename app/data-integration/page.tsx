@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Upload, FileSpreadsheet, CheckCircle, XCircle, AlertCircle, Database, Plus, FileUp, Trash2, Tag } from "lucide-react";
-import { getImports, addImport, addEmployee, deleteImport } from "@/lib/data/store";
+import { getImports, addImport, addEmployee, deleteImport, updateImportCategory } from "@/lib/data/store";
 import { HRISImport, Employee, RiskLevel, JobLevel } from "@/lib/data/types";
 import { classifyDocument, CATEGORY_LABELS, CATEGORY_COLORS, DocumentCategory } from "@/lib/ml/classifier";
 
@@ -45,6 +45,11 @@ export default function DataIntegrationPage() {
     const handleDeleteImport = (importId: string) => {
         deleteImport(importId);
         setDeleteConfirmId(null);
+        refreshData();
+    };
+
+    const handleCategoryChange = (importId: string, category: DocumentCategory) => {
+        updateImportCategory(importId, category, 100);
         refreshData();
     };
 
@@ -317,21 +322,22 @@ export default function DataIntegrationPage() {
                                                         {new Date(importRecord.importedAt).toLocaleDateString()}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {importRecord.dataCategory ? (
-                                                            <div className="flex flex-col gap-1">
-                                                                <Badge
-                                                                    className={`${CATEGORY_COLORS[importRecord.dataCategory as DocumentCategory]} text-white gap-1`}
-                                                                >
-                                                                    <Tag className="h-3 w-3" />
-                                                                    {CATEGORY_LABELS[importRecord.dataCategory as DocumentCategory]}
-                                                                </Badge>
-                                                                <span className="text-xs text-muted-foreground">
-                                                                    {importRecord.categoryConfidence}% confidence
-                                                                </span>
-                                                            </div>
-                                                        ) : (
-                                                            <span className="text-muted-foreground text-sm">—</span>
-                                                        )}
+                                                        <div className="flex flex-col gap-1">
+                                                            <select
+                                                                value={importRecord.dataCategory || "other"}
+                                                                onChange={(e) => handleCategoryChange(importRecord.id, e.target.value as DocumentCategory)}
+                                                                className={`text-xs font-medium px-2 py-1 rounded-lg border-0 cursor-pointer ${CATEGORY_COLORS[importRecord.dataCategory as DocumentCategory || "other"]} text-white`}
+                                                            >
+                                                                {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
+                                                                    <option key={value} value={value} className="bg-background text-foreground">
+                                                                        {label}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {importRecord.categoryConfidence === 100 ? "Manual" : importRecord.categoryConfidence ? `${importRecord.categoryConfidence}% ML` : "—"}
+                                                            </span>
+                                                        </div>
                                                     </TableCell>
                                                     <TableCell>{importRecord.recordCount.toLocaleString()}</TableCell>
                                                     <TableCell>{getStatusBadge(importRecord.status)}</TableCell>
