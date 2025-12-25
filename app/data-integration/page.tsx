@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Upload, FileSpreadsheet, CheckCircle, XCircle, AlertCircle, Database, Plus, FileUp, Trash2, Tag } from "lucide-react";
-import { getImports, addImport, addEmployee, deleteImport, updateImportCategory } from "@/lib/data/store";
+import { Upload, FileSpreadsheet, CheckCircle, XCircle, AlertCircle, Database, Plus, FileUp, Trash2, Sparkles } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getImports, addImport, addEmployee, deleteImport } from "@/lib/data/store";
 import { HRISImport, Employee, RiskLevel, JobLevel } from "@/lib/data/types";
 import { classifyDocument, CATEGORY_LABELS, CATEGORY_COLORS, DocumentCategory } from "@/lib/ml/classifier";
 
@@ -20,6 +21,7 @@ export default function DataIntegrationPage() {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
     const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+    const [categoryFilter, setCategoryFilter] = useState<DocumentCategory | "all">("all");
 
     // Manual form state
     const [formData, setFormData] = useState({
@@ -48,10 +50,7 @@ export default function DataIntegrationPage() {
         refreshData();
     };
 
-    const handleCategoryChange = (importId: string, category: DocumentCategory) => {
-        updateImportCategory(importId, category, 100);
-        refreshData();
-    };
+
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -83,7 +82,7 @@ export default function DataIntegrationPage() {
         setIsUploading(true);
         setUploadProgress(0);
 
-        // Classify the document using Naive Bayes
+        // Classify the document using Naive Bayes algorithm
         const classification = classifyDocument(file.name);
 
         // Simulate upload progress
@@ -93,7 +92,7 @@ export default function DataIntegrationPage() {
                     clearInterval(interval);
                     setIsUploading(false);
 
-                    // Add import record with classification
+                    // Add import record with AI classification
                     addImport({
                         filename: file.name,
                         importedAt: new Date().toISOString().split("T")[0],
@@ -185,6 +184,34 @@ export default function DataIntegrationPage() {
             default:
                 return <Badge>{status}</Badge>;
         }
+    };
+
+    const getCategoryBadge = (category?: DocumentCategory) => {
+        if (!category) return <span className="text-muted-foreground text-sm">-</span>;
+
+        const colorClass = CATEGORY_COLORS[category] || "bg-gray-500";
+        const label = CATEGORY_LABELS[category] || category;
+
+        return (
+            <Badge className={`${colorClass} text-white gap-1`}>
+                <Sparkles className="h-3 w-3" />
+                {label}
+            </Badge>
+        );
+    };
+
+    const getConfidenceBadge = (confidence?: number) => {
+        if (confidence === undefined) return <span className="text-muted-foreground text-sm">-</span>;
+
+        let colorClass = "text-green-600";
+        if (confidence < 70) colorClass = "text-orange-500";
+        else if (confidence < 85) colorClass = "text-yellow-600";
+
+        return (
+            <span className={`font-medium ${colorClass}`}>
+                {confidence}%
+            </span>
+        );
     };
 
     return (
@@ -293,8 +320,29 @@ export default function DataIntegrationPage() {
                         {/* Import History */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Import History</CardTitle>
-                                <CardDescription>Recent file imports and their status</CardDescription>
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                    <div>
+                                        <CardTitle>Import History</CardTitle>
+                                        <CardDescription>Recent file imports and their status</CardDescription>
+                                    </div>
+                                    <Select
+                                        value={categoryFilter}
+                                        onValueChange={(value) => setCategoryFilter(value as DocumentCategory | "all")}
+                                    >
+                                        <SelectTrigger className="w-full sm:w-[180px]">
+                                            <SelectValue placeholder="Category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">All Categories</SelectItem>
+                                            <SelectItem value="employee_data">Employee Data</SelectItem>
+                                            <SelectItem value="performance_review">Performance Review</SelectItem>
+                                            <SelectItem value="payroll">Payroll</SelectItem>
+                                            <SelectItem value="attendance">Attendance</SelectItem>
+                                            <SelectItem value="survey">Survey</SelectItem>
+                                            <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
                             </CardHeader>
                             <CardContent>
                                 <div className="rounded-md border">
@@ -303,76 +351,67 @@ export default function DataIntegrationPage() {
                                             <TableRow>
                                                 <TableHead>Filename</TableHead>
                                                 <TableHead className="hidden sm:table-cell">Date</TableHead>
-                                                <TableHead>Category</TableHead>
                                                 <TableHead>Records</TableHead>
+                                                <TableHead>AI Category</TableHead>
+                                                <TableHead>Confidence</TableHead>
                                                 <TableHead>Status</TableHead>
                                                 <TableHead className="text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {imports.map((importRecord) => (
-                                                <TableRow key={importRecord.id}>
-                                                    <TableCell>
-                                                        <div className="flex items-center gap-2">
-                                                            <FileSpreadsheet className="h-4 w-4 text-muted-foreground" />
-                                                            <span className="font-medium">{importRecord.filename}</span>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="hidden sm:table-cell">
-                                                        {new Date(importRecord.importedAt).toLocaleDateString()}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div className="flex flex-col gap-1">
-                                                            <select
-                                                                value={importRecord.dataCategory || "other"}
-                                                                onChange={(e) => handleCategoryChange(importRecord.id, e.target.value as DocumentCategory)}
-                                                                className={`text-xs font-medium px-2 py-1 rounded-lg border-0 cursor-pointer ${CATEGORY_COLORS[importRecord.dataCategory as DocumentCategory || "other"]} text-white`}
-                                                            >
-                                                                {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
-                                                                    <option key={value} value={value} className="bg-background text-foreground">
-                                                                        {label}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                            <span className="text-xs text-muted-foreground">
-                                                                {importRecord.categoryConfidence === 100 ? "Manual" : importRecord.categoryConfidence ? `${importRecord.categoryConfidence}% ML` : "—"}
-                                                            </span>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell>{importRecord.recordCount.toLocaleString()}</TableCell>
-                                                    <TableCell>{getStatusBadge(importRecord.status)}</TableCell>
-                                                    <TableCell className="text-right">
-                                                        {deleteConfirmId === importRecord.id ? (
-                                                            <div className="flex items-center justify-end gap-2">
-                                                                <span className="text-sm text-muted-foreground">Delete?</span>
-                                                                <Button
-                                                                    variant="destructive"
-                                                                    size="sm"
-                                                                    onClick={() => handleDeleteImport(importRecord.id)}
-                                                                >
-                                                                    Yes
-                                                                </Button>
-                                                                <Button
-                                                                    variant="outline"
-                                                                    size="sm"
-                                                                    onClick={() => setDeleteConfirmId(null)}
-                                                                >
-                                                                    No
-                                                                </Button>
+                                            {imports
+                                                .filter(imp => categoryFilter === "all" || imp.dataCategory === categoryFilter)
+                                                .map((importRecord) => (
+                                                    <TableRow key={importRecord.id}>
+                                                        <TableCell>
+                                                            <div className="flex items-center gap-2">
+                                                                <FileSpreadsheet className="h-4 w-4 text-muted-foreground" />
+                                                                <span className="font-medium">{importRecord.filename}</span>
                                                             </div>
-                                                        ) : (
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                onClick={() => setDeleteConfirmId(importRecord.id)}
-                                                                className="text-muted-foreground hover:text-destructive"
-                                                            >
-                                                                <Trash2 className="h-4 w-4" />
-                                                            </Button>
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
+                                                        </TableCell>
+                                                        <TableCell className="hidden sm:table-cell">
+                                                            {new Date(importRecord.importedAt).toLocaleDateString()}
+                                                        </TableCell>
+                                                        <TableCell>{importRecord.recordCount.toLocaleString()}</TableCell>
+                                                        <TableCell>
+                                                            {getCategoryBadge(importRecord.dataCategory)}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {getConfidenceBadge(importRecord.categoryConfidence)}
+                                                        </TableCell>
+                                                        <TableCell>{getStatusBadge(importRecord.status)}</TableCell>
+                                                        <TableCell className="text-right">
+                                                            {deleteConfirmId === importRecord.id ? (
+                                                                <div className="flex items-center justify-end gap-2">
+                                                                    <span className="text-sm text-muted-foreground">Delete?</span>
+                                                                    <Button
+                                                                        variant="destructive"
+                                                                        size="sm"
+                                                                        onClick={() => handleDeleteImport(importRecord.id)}
+                                                                    >
+                                                                        Yes
+                                                                    </Button>
+                                                                    <Button
+                                                                        variant="outline"
+                                                                        size="sm"
+                                                                        onClick={() => setDeleteConfirmId(null)}
+                                                                    >
+                                                                        No
+                                                                    </Button>
+                                                                </div>
+                                                            ) : (
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    onClick={() => setDeleteConfirmId(importRecord.id)}
+                                                                    className="text-muted-foreground hover:text-destructive"
+                                                                >
+                                                                    <Trash2 className="h-4 w-4" />
+                                                                </Button>
+                                                            )}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
                                         </TableBody>
                                     </Table>
                                 </div>

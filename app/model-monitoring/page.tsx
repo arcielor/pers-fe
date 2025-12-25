@@ -171,7 +171,7 @@ export default function ModelMonitoringPage() {
                     <TabsList>
                         <TabsTrigger value="trends" className="gap-2">
                             <TrendingUp className="h-4 w-4" />
-                            Performance Trends
+                            Quarterly Performance
                         </TabsTrigger>
                         <TabsTrigger value="comparison" className="gap-2">
                             <BarChart3 className="h-4 w-4" />
@@ -186,7 +186,7 @@ export default function ModelMonitoringPage() {
                     <TabsContent value="trends" className="space-y-4">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Performance Over Time</CardTitle>
+                                <CardTitle>Quarterly Performance</CardTitle>
                                 <CardDescription>Model metrics trend across training iterations</CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -277,8 +277,8 @@ export default function ModelMonitoringPage() {
 
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Accuracy Trend</CardTitle>
-                                    <CardDescription>Model accuracy over time</CardDescription>
+                                    <CardTitle>Quarterly Accuracy Trend</CardTitle>
+                                    <CardDescription>Model accuracy per quarter</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="h-[300px]">
@@ -384,7 +384,7 @@ export default function ModelMonitoringPage() {
                                                 <p className="text-sm text-muted-foreground">Incorporating intervention outcomes</p>
                                             </div>
                                         </div>
-                                        <Badge className="bg-green-500">Active</Badge>
+                                        <Badge variant="success">Active</Badge>
                                     </div>
                                     <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                                         <div className="flex items-center gap-3">
@@ -396,7 +396,7 @@ export default function ModelMonitoringPage() {
                                                 <p className="text-sm text-muted-foreground">Scheduled for next quarter</p>
                                             </div>
                                         </div>
-                                        <Badge variant="outline">Scheduled</Badge>
+                                        <Badge variant="warning">Scheduled</Badge>
                                     </div>
                                 </div>
                             </CardContent>

@@ -11,7 +11,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, BookOpen, Scale, TrendingUp, MessageSquare, CheckCircle, Clock, Calendar, Target } from "lucide-react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Plus, BookOpen, Scale, TrendingUp, MessageSquare, CheckCircle, Clock, Calendar, Target, Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { getInterventions, getEmployees, addIntervention, updateIntervention } from "@/lib/data/store";
 import { Intervention, Employee, InterventionType, InterventionStatus } from "@/lib/data/types";
 
@@ -27,6 +30,7 @@ export default function InterventionsPage() {
     const [interventions, setInterventions] = useState<Intervention[]>([]);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [employeeComboboxOpen, setEmployeeComboboxOpen] = useState(false);
     const [statusFilter, setStatusFilter] = useState<string>("all");
 
     // Form state
@@ -95,11 +99,11 @@ export default function InterventionsPage() {
             case "completed":
                 return <Badge variant="success">Completed</Badge>;
             case "in_progress":
-                return <Badge className="bg-blue-500 hover:bg-blue-600">In Progress</Badge>;
+                return <Badge variant="warning">In Progress</Badge>;
             case "planned":
-                return <Badge variant="outline">Planned</Badge>;
+                return <Badge variant="info">Planned</Badge>;
             case "cancelled":
-                return <Badge variant="secondary">Cancelled</Badge>;
+                return <Badge variant="destructive">Cancelled</Badge>;
         }
     };
 
@@ -226,18 +230,52 @@ export default function InterventionsPage() {
                                         <div className="space-y-4 py-4">
                                             <div className="space-y-2">
                                                 <label className="text-sm font-medium">Employee</label>
-                                                <Select value={formEmployee} onValueChange={setFormEmployee}>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select employee" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        {employees.map((emp) => (
-                                                            <SelectItem key={emp.id} value={emp.id}>
-                                                                {emp.name} - {emp.department}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
+                                                <Popover open={employeeComboboxOpen} onOpenChange={setEmployeeComboboxOpen}>
+                                                    <PopoverTrigger asChild>
+                                                        <Button
+                                                            variant="outline"
+                                                            role="combobox"
+                                                            aria-expanded={employeeComboboxOpen}
+                                                            className="w-full justify-between font-normal"
+                                                        >
+                                                            {formEmployee
+                                                                ? employees.find((emp) => emp.id === formEmployee)?.name
+                                                                : "Search employee..."}
+                                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                        </Button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className="w-[350px] p-0">
+                                                        <Command>
+                                                            <CommandInput placeholder="Search employee name..." />
+                                                            <CommandList>
+                                                                <CommandEmpty>No employee found.</CommandEmpty>
+                                                                <CommandGroup>
+                                                                    {employees.map((emp) => (
+                                                                        <CommandItem
+                                                                            key={emp.id}
+                                                                            value={emp.name}
+                                                                            onSelect={() => {
+                                                                                setFormEmployee(emp.id);
+                                                                                setEmployeeComboboxOpen(false);
+                                                                            }}
+                                                                        >
+                                                                            <Check
+                                                                                className={cn(
+                                                                                    "mr-2 h-4 w-4",
+                                                                                    formEmployee === emp.id ? "opacity-100" : "opacity-0"
+                                                                                )}
+                                                                            />
+                                                                            <div className="flex flex-col">
+                                                                                <span>{emp.name}</span>
+                                                                                <span className="text-xs text-muted-foreground">{emp.department}</span>
+                                                                            </div>
+                                                                        </CommandItem>
+                                                                    ))}
+                                                                </CommandGroup>
+                                                            </CommandList>
+                                                        </Command>
+                                                    </PopoverContent>
+                                                </Popover>
                                             </div>
                                             <div className="space-y-2">
                                                 <label className="text-sm font-medium">Type</label>
