@@ -352,7 +352,7 @@ export default function DataIntegrationPage() {
                                                 <TableHead>Filename</TableHead>
                                                 <TableHead className="hidden sm:table-cell">Date</TableHead>
                                                 <TableHead>Records</TableHead>
-                                                <TableHead>AI Category</TableHead>
+                                                <TableHead>Category</TableHead>
                                                 <TableHead>Confidence</TableHead>
                                                 <TableHead>Status</TableHead>
                                                 <TableHead className="text-right">Actions</TableHead>
