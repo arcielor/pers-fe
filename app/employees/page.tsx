@@ -136,9 +136,6 @@ export default function EmployeesPage() {
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div>
                                 <CardTitle>All Employees</CardTitle>
-                                <CardDescription>
-                                    {filteredEmployees.length} of {employees.length} employees shown
-                                </CardDescription>
                             </div>
                             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                 <DialogTrigger asChild>

@@ -108,7 +108,7 @@ export default function ModelMonitoringPage() {
             <div className="flex-1 p-4 lg:p-8 space-y-8">
                 {/* Model Status Banner */}
                 <Card className="bg-gradient-to-r from-violet-500/10 to-purple-600/10 border-violet-500/20">
-                    <CardContent className="pt-6">
+                    <CardContent>
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                             <div className="flex items-center gap-4">
                                 <div className="h-12 w-12 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
