@@ -71,4 +71,6 @@ export interface HRISImport {
     importedAt: string;
     recordCount: number;
     status: "success" | "failed" | "processing";
+    dataCategory?: "employee_data" | "performance_review" | "payroll" | "attendance" | "survey" | "other";
+    categoryConfidence?: number;
 }

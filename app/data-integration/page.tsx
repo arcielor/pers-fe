@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Upload, FileSpreadsheet, CheckCircle, XCircle, AlertCircle, Database, Plus, FileUp, Trash2 } from "lucide-react";
+import { Upload, FileSpreadsheet, CheckCircle, XCircle, AlertCircle, Database, Plus, FileUp, Trash2, Tag } from "lucide-react";
 import { getImports, addImport, addEmployee, deleteImport } from "@/lib/data/store";
 import { HRISImport, Employee, RiskLevel, JobLevel } from "@/lib/data/types";
+import { classifyDocument, CATEGORY_LABELS, CATEGORY_COLORS, DocumentCategory } from "@/lib/ml/classifier";
 
 export default function DataIntegrationPage() {
     const [imports, setImports] = useState<HRISImport[]>([]);
@@ -77,6 +78,9 @@ export default function DataIntegrationPage() {
         setIsUploading(true);
         setUploadProgress(0);
 
+        // Classify the document using Naive Bayes
+        const classification = classifyDocument(file.name);
+
         // Simulate upload progress
         const interval = setInterval(() => {
             setUploadProgress((prev) => {
@@ -84,12 +88,14 @@ export default function DataIntegrationPage() {
                     clearInterval(interval);
                     setIsUploading(false);
 
-                    // Add import record
+                    // Add import record with classification
                     addImport({
                         filename: file.name,
                         importedAt: new Date().toISOString().split("T")[0],
                         recordCount: Math.floor(Math.random() * 200) + 50,
                         status: "success",
+                        dataCategory: classification.category,
+                        categoryConfidence: classification.confidence,
                     });
                     refreshData();
                     return 100;
@@ -292,6 +298,7 @@ export default function DataIntegrationPage() {
                                             <TableRow>
                                                 <TableHead>Filename</TableHead>
                                                 <TableHead className="hidden sm:table-cell">Date</TableHead>
+                                                <TableHead>Category</TableHead>
                                                 <TableHead>Records</TableHead>
                                                 <TableHead>Status</TableHead>
                                                 <TableHead className="text-right">Actions</TableHead>
@@ -308,6 +315,23 @@ export default function DataIntegrationPage() {
                                                     </TableCell>
                                                     <TableCell className="hidden sm:table-cell">
                                                         {new Date(importRecord.importedAt).toLocaleDateString()}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {importRecord.dataCategory ? (
+                                                            <div className="flex flex-col gap-1">
+                                                                <Badge
+                                                                    className={`${CATEGORY_COLORS[importRecord.dataCategory as DocumentCategory]} text-white gap-1`}
+                                                                >
+                                                                    <Tag className="h-3 w-3" />
+                                                                    {CATEGORY_LABELS[importRecord.dataCategory as DocumentCategory]}
+                                                                </Badge>
+                                                                <span className="text-xs text-muted-foreground">
+                                                                    {importRecord.categoryConfidence}% confidence
+                                                                </span>
+                                                            </div>
+                                                        ) : (
+                                                            <span className="text-muted-foreground text-sm">—</span>
+                                                        )}
                                                     </TableCell>
                                                     <TableCell>{importRecord.recordCount.toLocaleString()}</TableCell>
                                                     <TableCell>{getStatusBadge(importRecord.status)}</TableCell>
