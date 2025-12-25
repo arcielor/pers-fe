@@ -864,6 +864,12 @@ const defaultEmployees: Employee[] = [
   },
 ];
 
+// Import generated Malaysian employees
+import { generatedMalaysianEmployees } from "./generatedEmployees";
+
+// Combine default and Malaysian employees
+const allDefaultEmployees = [...defaultEmployees, ...generatedMalaysianEmployees];
+
 const defaultInterventions: Intervention[] = [
   {
     id: "INT001",
@@ -934,7 +940,7 @@ const defaultImports: HRISImport[] = [
 ];
 
 // Data version - increment this to force localStorage reset when defaults change
-const DATA_VERSION = "2.0";
+const DATA_VERSION = "3.0";
 const DATA_VERSION_KEY = "pers_data_version";
 
 // Storage keys
@@ -982,7 +988,7 @@ function saveToStorage<T>(key: string, value: T): void {
 
 // Employees
 export function getEmployees(): Employee[] {
-  return getFromStorage(STORAGE_KEYS.employees, defaultEmployees);
+  return getFromStorage(STORAGE_KEYS.employees, allDefaultEmployees);
 }
 
 export function getEmployeeById(id: string): Employee | undefined {
