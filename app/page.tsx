@@ -28,6 +28,7 @@ import {
   Area,
   BarChart,
   Bar,
+  ComposedChart,
 } from "recharts";
 import { getEmployees, getDashboardStats, getRiskDistribution, getTopContributingFactors, getTopRiskEmployees } from "@/lib/data/store";
 import { Employee } from "@/lib/data/types";
@@ -280,8 +281,8 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Charts Row - Risk Distribution & Trends */}
-        <div className="grid gap-6 lg:grid-cols-2">
+        {/* Charts Row - Risk Distribution, Trends & Performance vs Attrition */}
+        <div className="grid gap-6 lg:grid-cols-3">
           <Card>
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold">Risk Distribution</CardTitle>
@@ -295,8 +296,8 @@ export default function Dashboard() {
                       data={pieData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={70}
-                      outerRadius={110}
+                      innerRadius={60}
+                      outerRadius={90}
                       paddingAngle={4}
                       dataKey="value"
                       strokeWidth={0}
@@ -315,15 +316,15 @@ export default function Dashboard() {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              <div className="flex justify-center gap-6 mt-4">
+              <div className="flex justify-center gap-4 mt-4 flex-wrap">
                 {pieData.map((item) => (
                   <div key={item.name} className="flex items-center gap-2">
                     <div
                       className="h-3 w-3 rounded-full"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-sm text-muted-foreground">{item.name}</span>
-                    <span className="text-sm font-semibold">{item.value}</span>
+                    <span className="text-xs text-muted-foreground">{item.name}</span>
+                    <span className="text-xs font-semibold">{item.value}</span>
                   </div>
                 ))}
               </div>
@@ -363,11 +364,77 @@ export default function Dashboard() {
                         boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
                       }}
                     />
-                    <Legend />
-                    <Area type="monotone" dataKey="high" stroke={RISK_COLORS.high} strokeWidth={2} fillOpacity={1} fill="url(#highGradient)" name="High Risk %" />
-                    <Area type="monotone" dataKey="medium" stroke={RISK_COLORS.medium} strokeWidth={2} fillOpacity={1} fill="url(#mediumGradient)" name="Medium Risk %" />
-                    <Area type="monotone" dataKey="low" stroke={RISK_COLORS.low} strokeWidth={2} fillOpacity={1} fill="url(#lowGradient)" name="Low Risk %" />
+                    <Legend wrapperStyle={{ fontSize: '10px' }} />
+                    <Area type="monotone" dataKey="high" stroke={RISK_COLORS.high} strokeWidth={2} fillOpacity={1} fill="url(#highGradient)" name="High %" />
+                    <Area type="monotone" dataKey="medium" stroke={RISK_COLORS.medium} strokeWidth={2} fillOpacity={1} fill="url(#mediumGradient)" name="Medium %" />
+                    <Area type="monotone" dataKey="low" stroke={RISK_COLORS.low} strokeWidth={2} fillOpacity={1} fill="url(#lowGradient)" name="Low %" />
                   </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold">Does Performance Affect Attrition?</CardTitle>
+              <CardDescription>Employee retention vs employee attrition breakdown by performance level</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      { level: "Low", retained: 58, left: 42 },
+                      { level: "Below Avg", retained: 72, left: 28 },
+                      { level: "Average", retained: 88, left: 12 },
+                      { level: "Above Avg", retained: 92, left: 8 },
+                      { level: "High", retained: 95, left: 5 },
+                    ]}
+                    margin={{ top: 20, right: 20, bottom: 5, left: -10 }}
+                    layout="vertical"
+                  >
+                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" horizontal={false} />
+                    <XAxis
+                      type="number"
+                      domain={[0, 100]}
+                      className="text-xs"
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={(value) => `${value}%`}
+                    />
+                    <YAxis
+                      type="category"
+                      dataKey="level"
+                      className="text-xs"
+                      axisLine={false}
+                      tickLine={false}
+                      width={65}
+                      tick={{ fontSize: 10 }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        borderRadius: '12px',
+                        border: 'none',
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                      }}
+                      formatter={(value, name) => [`${value}%`, name]}
+                    />
+                    <Legend wrapperStyle={{ fontSize: '10px' }} />
+                    <Bar
+                      dataKey="retained"
+                      name="Stayed"
+                      stackId="a"
+                      fill="#22c55e"
+                      radius={[0, 0, 0, 0]}
+                    />
+                    <Bar
+                      dataKey="left"
+                      name="Left"
+                      stackId="a"
+                      fill="#ef4444"
+                      radius={[0, 4, 4, 0]}
+                    />
+                  </BarChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>

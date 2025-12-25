@@ -447,7 +447,7 @@ export default function DataIntegrationPage() {
                                             <Input
                                                 required
                                                 type="email"
-                                                placeholder="john.doe@company.com"
+                                                placeholder="john.doe@jojacorp.com"
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                             />

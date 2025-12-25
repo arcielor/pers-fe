@@ -7,7 +7,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP001",
     name: "Sarah Johnson",
-    email: "sarah.johnson@company.com",
+    email: "sarah.johnson@jojacorp.com",
     department: "Engineering",
     position: "Senior Developer",
     jobLevel: "senior",
@@ -33,7 +33,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP002",
     name: "Michael Chen",
-    email: "michael.chen@company.com",
+    email: "michael.chen@jojacorp.com",
     department: "Marketing",
     position: "Marketing Manager",
     jobLevel: "manager",
@@ -59,7 +59,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP003",
     name: "Emily Rodriguez",
-    email: "emily.rodriguez@company.com",
+    email: "emily.rodriguez@jojacorp.com",
     department: "Sales",
     position: "Sales Representative",
     jobLevel: "junior",
@@ -85,7 +85,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP004",
     name: "David Kim",
-    email: "david.kim@company.com",
+    email: "david.kim@jojacorp.com",
     department: "Engineering",
     position: "DevOps Engineer",
     jobLevel: "senior",
@@ -111,7 +111,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP005",
     name: "Lisa Thompson",
-    email: "lisa.thompson@company.com",
+    email: "lisa.thompson@jojacorp.com",
     department: "HR",
     position: "HR Specialist",
     jobLevel: "mid",
@@ -137,7 +137,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP006",
     name: "James Wilson",
-    email: "james.wilson@company.com",
+    email: "james.wilson@jojacorp.com",
     department: "Finance",
     position: "Financial Analyst",
     jobLevel: "mid",
@@ -163,7 +163,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP007",
     name: "Amanda Foster",
-    email: "amanda.foster@company.com",
+    email: "amanda.foster@jojacorp.com",
     department: "Engineering",
     position: "QA Engineer",
     jobLevel: "mid",
@@ -189,7 +189,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP008",
     name: "Robert Martinez",
-    email: "robert.martinez@company.com",
+    email: "robert.martinez@jojacorp.com",
     department: "Operations",
     position: "Operations Manager",
     jobLevel: "manager",
@@ -215,7 +215,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP009",
     name: "Jennifer Lee",
-    email: "jennifer.lee@company.com",
+    email: "jennifer.lee@jojacorp.com",
     department: "Engineering",
     position: "Frontend Developer",
     jobLevel: "mid",
@@ -241,7 +241,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP010",
     name: "Christopher Brown",
-    email: "christopher.brown@company.com",
+    email: "christopher.brown@jojacorp.com",
     department: "Sales",
     position: "Sales Manager",
     jobLevel: "manager",
@@ -267,7 +267,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP011",
     name: "Patricia Garcia",
-    email: "patricia.garcia@company.com",
+    email: "patricia.garcia@jojacorp.com",
     department: "HR",
     position: "HR Manager",
     jobLevel: "manager",
@@ -293,7 +293,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP012",
     name: "Daniel Taylor",
-    email: "daniel.taylor@company.com",
+    email: "daniel.taylor@jojacorp.com",
     department: "Engineering",
     position: "Backend Developer",
     jobLevel: "senior",
@@ -319,7 +319,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP013",
     name: "Nancy White",
-    email: "nancy.white@company.com",
+    email: "nancy.white@jojacorp.com",
     department: "Finance",
     position: "Senior Accountant",
     jobLevel: "senior",
@@ -345,7 +345,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP014",
     name: "Kevin Anderson",
-    email: "kevin.anderson@company.com",
+    email: "kevin.anderson@jojacorp.com",
     department: "Marketing",
     position: "Digital Marketing Specialist",
     jobLevel: "mid",
@@ -371,7 +371,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP015",
     name: "Michelle Thomas",
-    email: "michelle.thomas@company.com",
+    email: "michelle.thomas@jojacorp.com",
     department: "Operations",
     position: "Supply Chain Analyst",
     jobLevel: "mid",
@@ -397,7 +397,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP016",
     name: "Steven Harris",
-    email: "steven.harris@company.com",
+    email: "steven.harris@jojacorp.com",
     department: "Engineering",
     position: "Cloud Architect",
     jobLevel: "lead",
@@ -423,7 +423,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP017",
     name: "Elizabeth Clark",
-    email: "elizabeth.clark@company.com",
+    email: "elizabeth.clark@jojacorp.com",
     department: "Legal",
     position: "Corporate Counsel",
     jobLevel: "senior",
@@ -449,7 +449,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP018",
     name: "Brian Lewis",
-    email: "brian.lewis@company.com",
+    email: "brian.lewis@jojacorp.com",
     department: "Sales",
     position: "Account Executive",
     jobLevel: "mid",
@@ -475,7 +475,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP019",
     name: "Rachel Robinson",
-    email: "rachel.robinson@company.com",
+    email: "rachel.robinson@jojacorp.com",
     department: "Marketing",
     position: "Content Strategist",
     jobLevel: "mid",
@@ -501,7 +501,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP020",
     name: "William Walker",
-    email: "william.walker@company.com",
+    email: "william.walker@jojacorp.com",
     department: "Engineering",
     position: "Security Engineer",
     jobLevel: "senior",
@@ -527,7 +527,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP021",
     name: "Jessica Hall",
-    email: "jessica.hall@company.com",
+    email: "jessica.hall@jojacorp.com",
     department: "Finance",
     position: "Finance Manager",
     jobLevel: "manager",
@@ -553,7 +553,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP022",
     name: "Thomas Young",
-    email: "thomas.young@company.com",
+    email: "thomas.young@jojacorp.com",
     department: "Engineering",
     position: "Mobile Developer",
     jobLevel: "mid",
@@ -579,7 +579,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP023",
     name: "Sandra King",
-    email: "sandra.king@company.com",
+    email: "sandra.king@jojacorp.com",
     department: "HR",
     position: "Talent Acquisition Lead",
     jobLevel: "lead",
@@ -605,7 +605,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP024",
     name: "Mark Wright",
-    email: "mark.wright@company.com",
+    email: "mark.wright@jojacorp.com",
     department: "Operations",
     position: "Logistics Coordinator",
     jobLevel: "junior",
@@ -631,7 +631,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP025",
     name: "Ashley Scott",
-    email: "ashley.scott@company.com",
+    email: "ashley.scott@jojacorp.com",
     department: "Marketing",
     position: "Brand Manager",
     jobLevel: "manager",
@@ -657,7 +657,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP026",
     name: "Andrew Green",
-    email: "andrew.green@company.com",
+    email: "andrew.green@jojacorp.com",
     department: "Engineering",
     position: "Data Engineer",
     jobLevel: "senior",
@@ -683,7 +683,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP027",
     name: "Kimberly Adams",
-    email: "kimberly.adams@company.com",
+    email: "kimberly.adams@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "entry",
@@ -709,7 +709,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP028",
     name: "Jason Nelson",
-    email: "jason.nelson@company.com",
+    email: "jason.nelson@jojacorp.com",
     department: "Engineering",
     position: "Site Reliability Engineer",
     jobLevel: "senior",
@@ -735,7 +735,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP029",
     name: "Stephanie Carter",
-    email: "stephanie.carter@company.com",
+    email: "stephanie.carter@jojacorp.com",
     department: "Finance",
     position: "Budget Analyst",
     jobLevel: "mid",
@@ -761,7 +761,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP030",
     name: "Ryan Mitchell",
-    email: "ryan.mitchell@company.com",
+    email: "ryan.mitchell@jojacorp.com",
     department: "Operations",
     position: "Quality Assurance Lead",
     jobLevel: "lead",
@@ -787,7 +787,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP031",
     name: "Nicole Perez",
-    email: "nicole.perez@company.com",
+    email: "nicole.perez@jojacorp.com",
     department: "Legal",
     position: "Paralegal",
     jobLevel: "junior",
@@ -813,7 +813,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP032",
     name: "Justin Roberts",
-    email: "justin.roberts@company.com",
+    email: "justin.roberts@jojacorp.com",
     department: "Engineering",
     position: "Machine Learning Engineer",
     jobLevel: "senior",
@@ -839,7 +839,7 @@ const defaultEmployees: Employee[] = [
   {
     id: "EMP033",
     name: "Megan Turner",
-    email: "megan.turner@company.com",
+    email: "megan.turner@jojacorp.com",
     department: "Marketing",
     position: "Social Media Manager",
     jobLevel: "mid",
@@ -1145,7 +1145,7 @@ const defaultImports: HRISImport[] = [
 ];
 
 // Data version - increment this to force localStorage reset when defaults change
-const DATA_VERSION = "3.5";
+const DATA_VERSION = "3.6";
 const DATA_VERSION_KEY = "pers_data_version";
 
 // Storage keys

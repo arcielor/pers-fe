@@ -112,7 +112,7 @@ function generateEmail(name: string): string {
         .split(" ")
         .slice(0, 2)
         .join(".");
-    return `${cleanName}@company.com`;
+    return `${cleanName}@jojacorp.com`;
 }
 
 function generateRandomDate(startYear: number, endYear: number): string {

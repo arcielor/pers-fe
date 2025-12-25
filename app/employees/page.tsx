@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Search, Eye, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Eye, Plus, ChevronLeft, ChevronRight, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import { getEmployees, addEmployee } from "@/lib/data/store";
 import { Employee, RiskLevel, JobLevel } from "@/lib/data/types";
@@ -22,6 +22,8 @@ export default function EmployeesPage() {
     const [riskFilter, setRiskFilter] = useState<string>("all");
     const [departmentFilter, setDepartmentFilter] = useState<string>("all");
     const [currentPage, setCurrentPage] = useState(1);
+    const [sortColumn, setSortColumn] = useState<string | null>(null);
+    const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
@@ -104,10 +106,67 @@ export default function EmployeesPage() {
         return matchesSearch && matchesRisk && matchesDept;
     });
 
+    // Sort toggle handler
+    const handleSort = (column: string) => {
+        if (sortColumn === column) {
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+        } else {
+            setSortColumn(column);
+            setSortDirection("asc");
+        }
+        setCurrentPage(1);
+    };
+
+    // Apply sorting
+    const sortedEmployees = [...filteredEmployees].sort((a, b) => {
+        if (!sortColumn) return 0;
+
+        let aValue: string | number;
+        let bValue: string | number;
+
+        switch (sortColumn) {
+            case "id":
+                aValue = a.id;
+                bValue = b.id;
+                break;
+            case "name":
+                aValue = a.name.toLowerCase();
+                bValue = b.name.toLowerCase();
+                break;
+            case "department":
+                aValue = a.department.toLowerCase();
+                bValue = b.department.toLowerCase();
+                break;
+            case "position":
+                aValue = a.position.toLowerCase();
+                bValue = b.position.toLowerCase();
+                break;
+            case "riskLevel":
+                const riskOrder = { high: 3, medium: 2, low: 1 };
+                aValue = riskOrder[a.riskLevel] || 0;
+                bValue = riskOrder[b.riskLevel] || 0;
+                break;
+            case "riskScore":
+                aValue = a.riskScore;
+                bValue = b.riskScore;
+                break;
+            case "satisfaction":
+                aValue = a.satisfactionScore;
+                bValue = b.satisfactionScore;
+                break;
+            default:
+                return 0;
+        }
+
+        if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+        if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+        return 0;
+    });
+
     const ITEMS_PER_PAGE = 10;
-    const totalPages = Math.ceil(filteredEmployees.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(sortedEmployees.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const paginatedEmployees = filteredEmployees.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const paginatedEmployees = sortedEmployees.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     // Reset to page 1 when filters change
     const handleFilterChange = (setter: (value: string) => void, value: string) => {
@@ -124,6 +183,15 @@ export default function EmployeesPage() {
             default:
                 return "success";
         }
+    };
+
+    const getSortIcon = (column: string) => {
+        if (sortColumn !== column) {
+            return <ArrowUpDown className="h-4 w-4 ml-1 opacity-50" />;
+        }
+        return sortDirection === "asc"
+            ? <ArrowUp className="h-4 w-4 ml-1" />
+            : <ArrowDown className="h-4 w-4 ml-1" />;
     };
 
     return (
@@ -167,7 +235,7 @@ export default function EmployeesPage() {
                                                 <Input
                                                     required
                                                     type="email"
-                                                    placeholder="john.doe@company.com"
+                                                    placeholder="john.doe@jojacorp.com"
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 />
@@ -304,13 +372,62 @@ export default function EmployeesPage() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>ID</TableHead>
-                                        <TableHead>Employee</TableHead>
-                                        <TableHead className="hidden md:table-cell">Department</TableHead>
-                                        <TableHead className="hidden lg:table-cell">Position</TableHead>
-                                        <TableHead>Risk Level</TableHead>
-                                        <TableHead className="hidden sm:table-cell">Risk Score</TableHead>
-                                        <TableHead className="hidden lg:table-cell">Satisfaction</TableHead>
+                                        <TableHead
+                                            className="cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("id")}
+                                        >
+                                            <div className="flex items-center">
+                                                ID{getSortIcon("id")}
+                                            </div>
+                                        </TableHead>
+                                        <TableHead
+                                            className="cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("name")}
+                                        >
+                                            <div className="flex items-center">
+                                                Employee{getSortIcon("name")}
+                                            </div>
+                                        </TableHead>
+                                        <TableHead
+                                            className="hidden md:table-cell cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("department")}
+                                        >
+                                            <div className="flex items-center">
+                                                Department{getSortIcon("department")}
+                                            </div>
+                                        </TableHead>
+                                        <TableHead
+                                            className="hidden lg:table-cell cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("position")}
+                                        >
+                                            <div className="flex items-center">
+                                                Position{getSortIcon("position")}
+                                            </div>
+                                        </TableHead>
+                                        <TableHead
+                                            className="cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("riskLevel")}
+                                        >
+                                            <div className="flex items-center">
+                                                Risk Level{getSortIcon("riskLevel")}
+                                            </div>
+                                        </TableHead>
+                                        <TableHead
+                                            className="hidden sm:table-cell cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("riskScore")}
+                                        >
+                                            <div className="flex items-center">
+                                                Risk Score{getSortIcon("riskScore")}
+                                            </div>
+                                        </TableHead>
+                                        <TableHead
+                                            className="hidden lg:table-cell cursor-pointer hover:bg-muted/50 select-none"
+                                            onClick={() => handleSort("satisfaction")}
+                                        >
+                                            <div className="flex items-center">
+                                                Satisfaction{getSortIcon("satisfaction")}
+                                            </div>
+                                        </TableHead>
                                         <TableHead className="text-right">Actions</TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -367,17 +484,17 @@ export default function EmployeesPage() {
                                 </TableBody>
                             </Table>
                         </div>
-                        {filteredEmployees.length === 0 && (
+                        {sortedEmployees.length === 0 && (
                             <div className="text-center py-8 text-muted-foreground">
                                 No employees found matching your criteria.
                             </div>
                         )}
 
                         {/* Pagination */}
-                        {filteredEmployees.length > 0 && (
+                        {sortedEmployees.length > 0 && (
                             <div className="flex items-center justify-between mt-4 pt-4 border-t">
                                 <p className="text-sm text-muted-foreground">
-                                    Showing {startIndex + 1} to {Math.min(startIndex + ITEMS_PER_PAGE, filteredEmployees.length)} of {filteredEmployees.length} employees
+                                    Showing {startIndex + 1} to {Math.min(startIndex + ITEMS_PER_PAGE, sortedEmployees.length)} of {sortedEmployees.length} employees
                                 </p>
                                 <div className="flex items-center gap-2">
                                     <Button

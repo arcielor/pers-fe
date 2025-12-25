@@ -99,7 +99,7 @@ export function Header({ title, description }: HeaderProps) {
                         <DropdownMenuLabel>
                             <div className="flex flex-col space-y-1">
                                 <p className="text-sm font-medium">HR Admin</p>
-                                <p className="text-xs text-muted-foreground">admin@company.com</p>
+                                <p className="text-xs text-muted-foreground">admin@jojacorp.com</p>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />

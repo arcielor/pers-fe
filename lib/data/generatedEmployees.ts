@@ -4,7 +4,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP034",
     name: "Chong Yi Ting",
-    email: "chong.yi@company.com",
+    email: "chong.yi@jojacorp.com",
     department: "Finance",
     position: "Accounts Executive",
     jobLevel: "manager",
@@ -30,7 +30,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP035",
     name: "Rani a/p Selvaraj",
-    email: "rani.selvaraj@company.com",
+    email: "rani.selvaraj@jojacorp.com",
     department: "Sales",
     position: "Account Manager",
     jobLevel: "entry",
@@ -56,7 +56,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP036",
     name: "Ahmad bin Wahab",
-    email: "ahmad.wahab@company.com",
+    email: "ahmad.wahab@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "manager",
@@ -82,7 +82,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP037",
     name: "Sim Lin Jun",
-    email: "sim.lin@company.com",
+    email: "sim.lin@jojacorp.com",
     department: "Operations",
     position: "Operations Executive",
     jobLevel: "manager",
@@ -108,7 +108,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP038",
     name: "Arun a/l Shanmugam",
-    email: "arun.shanmugam@company.com",
+    email: "arun.shanmugam@jojacorp.com",
     department: "HR",
     position: "Talent Acquisition Specialist",
     jobLevel: "mid",
@@ -134,7 +134,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP039",
     name: "Zulkifli bin Yusof",
-    email: "zulkifli.yusof@company.com",
+    email: "zulkifli.yusof@jojacorp.com",
     department: "Engineering",
     position: "Senior Developer",
     jobLevel: "mid",
@@ -160,7 +160,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP040",
     name: "Cheong Yu Jing",
-    email: "cheong.yu@company.com",
+    email: "cheong.yu@jojacorp.com",
     department: "Sales",
     position: "Sales Executive",
     jobLevel: "junior",
@@ -186,7 +186,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP041",
     name: "Kumar a/l Rajan",
-    email: "kumar.rajan@company.com",
+    email: "kumar.rajan@jojacorp.com",
     department: "Marketing",
     position: "Digital Marketing Specialist",
     jobLevel: "senior",
@@ -212,7 +212,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP042",
     name: "Zarina binti Yusof",
-    email: "zarina.yusof@company.com",
+    email: "zarina.yusof@jojacorp.com",
     department: "Marketing",
     position: "Brand Manager",
     jobLevel: "junior",
@@ -238,7 +238,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP043",
     name: "Koh Cheng Jing",
-    email: "koh.cheng@company.com",
+    email: "koh.cheng@jojacorp.com",
     department: "HR",
     position: "Talent Acquisition Specialist",
     jobLevel: "manager",
@@ -264,7 +264,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP044",
     name: "Surya a/l Ramasamy",
-    email: "surya.ramasamy@company.com",
+    email: "surya.ramasamy@jojacorp.com",
     department: "Legal",
     position: "Contract Specialist",
     jobLevel: "entry",
@@ -290,7 +290,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP045",
     name: "Aminah binti Hamid",
-    email: "aminah.hamid@company.com",
+    email: "aminah.hamid@jojacorp.com",
     department: "Marketing",
     position: "Content Strategist",
     jobLevel: "entry",
@@ -316,7 +316,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP046",
     name: "Chin Qian Wen",
-    email: "chin.qian@company.com",
+    email: "chin.qian@jojacorp.com",
     department: "Operations",
     position: "Operations Executive",
     jobLevel: "entry",
@@ -342,7 +342,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP047",
     name: "Ravi a/l Murugan",
-    email: "ravi.murugan@company.com",
+    email: "ravi.murugan@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "mid",
@@ -368,7 +368,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP048",
     name: "Aminah binti Mohamed",
-    email: "aminah.mohamed@company.com",
+    email: "aminah.mohamed@jojacorp.com",
     department: "Engineering",
     position: "Frontend Developer",
     jobLevel: "entry",
@@ -394,7 +394,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP049",
     name: "Yap Fang Fang",
-    email: "yap.fang@company.com",
+    email: "yap.fang@jojacorp.com",
     department: "Operations",
     position: "Supply Chain Analyst",
     jobLevel: "mid",
@@ -420,7 +420,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP050",
     name: "Dinesh a/l Subramanian",
-    email: "dinesh.subramanian@company.com",
+    email: "dinesh.subramanian@jojacorp.com",
     department: "HR",
     position: "Training Specialist",
     jobLevel: "manager",
@@ -446,7 +446,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP051",
     name: "Aisyah binti Zainuddin",
-    email: "aisyah.zainuddin@company.com",
+    email: "aisyah.zainuddin@jojacorp.com",
     department: "Marketing",
     position: "Content Strategist",
     jobLevel: "manager",
@@ -472,7 +472,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP052",
     name: "Wong Xuan Cheng",
-    email: "wong.xuan@company.com",
+    email: "wong.xuan@jojacorp.com",
     department: "Legal",
     position: "Compliance Officer",
     jobLevel: "entry",
@@ -498,7 +498,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP053",
     name: "Shanti a/p Murugan",
-    email: "shanti.murugan@company.com",
+    email: "shanti.murugan@jojacorp.com",
     department: "Finance",
     position: "Budget Analyst",
     jobLevel: "junior",
@@ -524,7 +524,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP054",
     name: "Amir bin Bakar",
-    email: "amir.bakar@company.com",
+    email: "amir.bakar@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "entry",
@@ -550,7 +550,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP055",
     name: "Ong Xin Bao",
-    email: "ong.xin@company.com",
+    email: "ong.xin@jojacorp.com",
     department: "Engineering",
     position: "Cloud Engineer",
     jobLevel: "entry",
@@ -576,7 +576,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP056",
     name: "Rajesh a/l Palaniappan",
-    email: "rajesh.palaniappan@company.com",
+    email: "rajesh.palaniappan@jojacorp.com",
     department: "Marketing",
     position: "Marketing Analyst",
     jobLevel: "manager",
@@ -602,7 +602,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP057",
     name: "Syahira binti Wahab",
-    email: "syahira.wahab@company.com",
+    email: "syahira.wahab@jojacorp.com",
     department: "Marketing",
     position: "Content Strategist",
     jobLevel: "mid",
@@ -628,7 +628,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP058",
     name: "Ong Mei Hui",
-    email: "ong.mei@company.com",
+    email: "ong.mei@jojacorp.com",
     department: "Engineering",
     position: "Full Stack Developer",
     jobLevel: "senior",
@@ -654,7 +654,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP059",
     name: "Devi a/p Pillai",
-    email: "devi.pillai@company.com",
+    email: "devi.pillai@jojacorp.com",
     department: "HR",
     position: "Training Specialist",
     jobLevel: "mid",
@@ -680,7 +680,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP060",
     name: "Zarina binti Ibrahim",
-    email: "zarina.ibrahim@company.com",
+    email: "zarina.ibrahim@jojacorp.com",
     department: "Legal",
     position: "Legal Counsel",
     jobLevel: "lead",
@@ -706,7 +706,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP061",
     name: "Yap Xuan Yu",
-    email: "yap.xuan@company.com",
+    email: "yap.xuan@jojacorp.com",
     department: "Operations",
     position: "Logistics Coordinator",
     jobLevel: "senior",
@@ -732,7 +732,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP062",
     name: "Malathi a/p Krishnan",
-    email: "malathi.krishnan@company.com",
+    email: "malathi.krishnan@jojacorp.com",
     department: "Operations",
     position: "Logistics Coordinator",
     jobLevel: "junior",
@@ -758,7 +758,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP063",
     name: "Yusof bin Latif",
-    email: "yusof.latif@company.com",
+    email: "yusof.latif@jojacorp.com",
     department: "Legal",
     position: "Contract Specialist",
     jobLevel: "entry",
@@ -784,7 +784,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP064",
     name: "Foo Jing Yi",
-    email: "foo.jing@company.com",
+    email: "foo.jing@jojacorp.com",
     department: "HR",
     position: "Talent Acquisition Specialist",
     jobLevel: "lead",
@@ -810,7 +810,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP065",
     name: "Gopal a/l Maniam",
-    email: "gopal.maniam@company.com",
+    email: "gopal.maniam@jojacorp.com",
     department: "HR",
     position: "Training Specialist",
     jobLevel: "lead",
@@ -836,7 +836,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP066",
     name: "Firdaus bin Hamid",
-    email: "firdaus.hamid@company.com",
+    email: "firdaus.hamid@jojacorp.com",
     department: "Marketing",
     position: "Content Strategist",
     jobLevel: "entry",
@@ -862,7 +862,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP067",
     name: "Pua Jun Cheng",
-    email: "pua.jun@company.com",
+    email: "pua.jun@jojacorp.com",
     department: "HR",
     position: "Talent Acquisition Specialist",
     jobLevel: "junior",
@@ -888,7 +888,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP068",
     name: "Shanti a/p Velayutham",
-    email: "shanti.velayutham@company.com",
+    email: "shanti.velayutham@jojacorp.com",
     department: "Operations",
     position: "Operations Analyst",
     jobLevel: "entry",
@@ -914,7 +914,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP069",
     name: "Fauziah binti Hamid",
-    email: "fauziah.hamid@company.com",
+    email: "fauziah.hamid@jojacorp.com",
     department: "Marketing",
     position: "Marketing Analyst",
     jobLevel: "junior",
@@ -940,7 +940,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP070",
     name: "Chong Hong Yu",
-    email: "chong.hong@company.com",
+    email: "chong.hong@jojacorp.com",
     department: "Legal",
     position: "Legal Counsel",
     jobLevel: "lead",
@@ -966,7 +966,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP071",
     name: "Shalini a/p Palaniappan",
-    email: "shalini.palaniappan@company.com",
+    email: "shalini.palaniappan@jojacorp.com",
     department: "Operations",
     position: "Operations Analyst",
     jobLevel: "junior",
@@ -992,7 +992,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP072",
     name: "Shahira binti Abdullah",
-    email: "shahira.abdullah@company.com",
+    email: "shahira.abdullah@jojacorp.com",
     department: "Legal",
     position: "Contract Specialist",
     jobLevel: "senior",
@@ -1018,7 +1018,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP073",
     name: "Ng Yi Jie",
-    email: "ng.yi@company.com",
+    email: "ng.yi@jojacorp.com",
     department: "HR",
     position: "Training Specialist",
     jobLevel: "senior",
@@ -1044,7 +1044,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP074",
     name: "Vijay a/l Nathan",
-    email: "vijay.nathan@company.com",
+    email: "vijay.nathan@jojacorp.com",
     department: "HR",
     position: "Talent Acquisition Specialist",
     jobLevel: "manager",
@@ -1070,7 +1070,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP075",
     name: "Haziq bin Ahmad",
-    email: "haziq.ahmad@company.com",
+    email: "haziq.ahmad@jojacorp.com",
     department: "Engineering",
     position: "Backend Developer",
     jobLevel: "entry",
@@ -1096,7 +1096,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP076",
     name: "Teh Cheng Yan",
-    email: "teh.cheng@company.com",
+    email: "teh.cheng@jojacorp.com",
     department: "Finance",
     position: "Finance Coordinator",
     jobLevel: "entry",
@@ -1122,7 +1122,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP077",
     name: "Anitha a/p Menon",
-    email: "anitha.menon@company.com",
+    email: "anitha.menon@jojacorp.com",
     department: "Engineering",
     position: "Cloud Engineer",
     jobLevel: "junior",
@@ -1148,7 +1148,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP078",
     name: "Fatimah binti Ibrahim",
-    email: "fatimah.ibrahim@company.com",
+    email: "fatimah.ibrahim@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "senior",
@@ -1174,7 +1174,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP079",
     name: "Ong Cheng Jing",
-    email: "ong.cheng@company.com",
+    email: "ong.cheng@jojacorp.com",
     department: "Marketing",
     position: "Brand Manager",
     jobLevel: "junior",
@@ -1200,7 +1200,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP080",
     name: "Anitha a/p Murugan",
-    email: "anitha.murugan@company.com",
+    email: "anitha.murugan@jojacorp.com",
     department: "Finance",
     position: "Accountant",
     jobLevel: "lead",
@@ -1226,7 +1226,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP081",
     name: "Rashidah binti Ismail",
-    email: "rashidah.ismail@company.com",
+    email: "rashidah.ismail@jojacorp.com",
     department: "Finance",
     position: "Budget Analyst",
     jobLevel: "entry",
@@ -1252,7 +1252,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP082",
     name: "Sim Xuan Feng",
-    email: "sim.xuan@company.com",
+    email: "sim.xuan@jojacorp.com",
     department: "Finance",
     position: "Accounts Executive",
     jobLevel: "mid",
@@ -1278,7 +1278,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP083",
     name: "Shankar a/l Pillai",
-    email: "shankar.pillai@company.com",
+    email: "shankar.pillai@jojacorp.com",
     department: "Marketing",
     position: "Digital Marketing Specialist",
     jobLevel: "mid",
@@ -1304,7 +1304,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP084",
     name: "Aminah binti Zainuddin",
-    email: "aminah.zainuddin@company.com",
+    email: "aminah.zainuddin@jojacorp.com",
     department: "Engineering",
     position: "Senior Developer",
     jobLevel: "junior",
@@ -1330,7 +1330,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP085",
     name: "Khoo Qian Qian",
-    email: "khoo.qian@company.com",
+    email: "khoo.qian@jojacorp.com",
     department: "Sales",
     position: "Account Manager",
     jobLevel: "entry",
@@ -1356,7 +1356,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP086",
     name: "Kamala a/p Ramasamy",
-    email: "kamala.ramasamy@company.com",
+    email: "kamala.ramasamy@jojacorp.com",
     department: "Marketing",
     position: "Digital Marketing Specialist",
     jobLevel: "entry",
@@ -1382,7 +1382,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP087",
     name: "Siti binti Ahmad",
-    email: "siti.ahmad@company.com",
+    email: "siti.ahmad@jojacorp.com",
     department: "Marketing",
     position: "Marketing Analyst",
     jobLevel: "mid",
@@ -1408,7 +1408,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP088",
     name: "Goh Hui Hui",
-    email: "goh.hui@company.com",
+    email: "goh.hui@jojacorp.com",
     department: "Marketing",
     position: "Brand Manager",
     jobLevel: "entry",
@@ -1434,7 +1434,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP089",
     name: "Geetha a/p Chandran",
-    email: "geetha.chandran@company.com",
+    email: "geetha.chandran@jojacorp.com",
     department: "HR",
     position: "HR Coordinator",
     jobLevel: "lead",
@@ -1460,7 +1460,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP090",
     name: "Zarina binti Abdullah",
-    email: "zarina.abdullah@company.com",
+    email: "zarina.abdullah@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "entry",
@@ -1486,7 +1486,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP091",
     name: "Yap Xuan Mei",
-    email: "yap.xuan@company.com",
+    email: "yap.xuan@jojacorp.com",
     department: "HR",
     position: "HR Coordinator",
     jobLevel: "junior",
@@ -1512,7 +1512,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP092",
     name: "Ravi a/l Subramanian",
-    email: "ravi.subramanian@company.com",
+    email: "ravi.subramanian@jojacorp.com",
     department: "Marketing",
     position: "Brand Manager",
     jobLevel: "manager",
@@ -1538,7 +1538,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP093",
     name: "Nadia binti Aziz",
-    email: "nadia.aziz@company.com",
+    email: "nadia.aziz@jojacorp.com",
     department: "Engineering",
     position: "Cloud Engineer",
     jobLevel: "entry",
@@ -1564,7 +1564,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP094",
     name: "Teh Hui Shu",
-    email: "teh.hui@company.com",
+    email: "teh.hui@jojacorp.com",
     department: "Sales",
     position: "Account Manager",
     jobLevel: "entry",
@@ -1590,7 +1590,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP095",
     name: "Rajesh a/l Arumugam",
-    email: "rajesh.arumugam@company.com",
+    email: "rajesh.arumugam@jojacorp.com",
     department: "Engineering",
     position: "Full Stack Developer",
     jobLevel: "senior",
@@ -1616,7 +1616,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP096",
     name: "Razak bin Abdullah",
-    email: "razak.abdullah@company.com",
+    email: "razak.abdullah@jojacorp.com",
     department: "Finance",
     position: "Budget Analyst",
     jobLevel: "manager",
@@ -1642,7 +1642,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP097",
     name: "Ong Yu Qian",
-    email: "ong.yu@company.com",
+    email: "ong.yu@jojacorp.com",
     department: "Marketing",
     position: "Brand Manager",
     jobLevel: "senior",
@@ -1668,7 +1668,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP098",
     name: "Arjun a/l Govindasamy",
-    email: "arjun.govindasamy@company.com",
+    email: "arjun.govindasamy@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "junior",
@@ -1694,7 +1694,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP099",
     name: "Osman bin Hamid",
-    email: "osman.hamid@company.com",
+    email: "osman.hamid@jojacorp.com",
     department: "Legal",
     position: "Paralegal",
     jobLevel: "senior",
@@ -1720,7 +1720,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP100",
     name: "Cheong Hong Yi",
-    email: "cheong.hong@company.com",
+    email: "cheong.hong@jojacorp.com",
     department: "Engineering",
     position: "Cloud Engineer",
     jobLevel: "lead",
@@ -1746,7 +1746,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP101",
     name: "Ganesh a/l Balakrishnan",
-    email: "ganesh.balakrishnan@company.com",
+    email: "ganesh.balakrishnan@jojacorp.com",
     department: "Sales",
     position: "Sales Executive",
     jobLevel: "junior",
@@ -1772,7 +1772,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP102",
     name: "Nur binti Bakar",
-    email: "nur.bakar@company.com",
+    email: "nur.bakar@jojacorp.com",
     department: "Finance",
     position: "Budget Analyst",
     jobLevel: "lead",
@@ -1798,7 +1798,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP103",
     name: "Leong Li Fang",
-    email: "leong.li@company.com",
+    email: "leong.li@jojacorp.com",
     department: "Finance",
     position: "Accountant",
     jobLevel: "lead",
@@ -1824,7 +1824,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP104",
     name: "Geetha a/p Thirunavukarasu",
-    email: "geetha.thirunavukarasu@company.com",
+    email: "geetha.thirunavukarasu@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "manager",
@@ -1850,7 +1850,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP105",
     name: "Noraini binti Salleh",
-    email: "noraini.salleh@company.com",
+    email: "noraini.salleh@jojacorp.com",
     department: "HR",
     position: "Compensation Analyst",
     jobLevel: "entry",
@@ -1876,7 +1876,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP106",
     name: "Tan Xuan Liang",
-    email: "tan.xuan@company.com",
+    email: "tan.xuan@jojacorp.com",
     department: "Legal",
     position: "Contract Specialist",
     jobLevel: "lead",
@@ -1902,7 +1902,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP107",
     name: "Ramesh a/l Palaniappan",
-    email: "ramesh.palaniappan@company.com",
+    email: "ramesh.palaniappan@jojacorp.com",
     department: "HR",
     position: "HR Coordinator",
     jobLevel: "senior",
@@ -1928,7 +1928,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP108",
     name: "Hakim bin Majid",
-    email: "hakim.majid@company.com",
+    email: "hakim.majid@jojacorp.com",
     department: "Operations",
     position: "Operations Analyst",
     jobLevel: "junior",
@@ -1954,7 +1954,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP109",
     name: "Koh Fang Xin",
-    email: "koh.fang@company.com",
+    email: "koh.fang@jojacorp.com",
     department: "Engineering",
     position: "Full Stack Developer",
     jobLevel: "entry",
@@ -1980,7 +1980,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP110",
     name: "Uma a/p Muthusamy",
-    email: "uma.muthusamy@company.com",
+    email: "uma.muthusamy@jojacorp.com",
     department: "Marketing",
     position: "Digital Marketing Specialist",
     jobLevel: "mid",
@@ -2006,7 +2006,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP111",
     name: "Aisyah binti Ahmad",
-    email: "aisyah.ahmad@company.com",
+    email: "aisyah.ahmad@jojacorp.com",
     department: "Marketing",
     position: "Marketing Executive",
     jobLevel: "manager",
@@ -2032,7 +2032,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP112",
     name: "Yeo Wei Yan",
-    email: "yeo.wei@company.com",
+    email: "yeo.wei@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "senior",
@@ -2058,7 +2058,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP113",
     name: "Meena a/p Pandiyan",
-    email: "meena.pandiyan@company.com",
+    email: "meena.pandiyan@jojacorp.com",
     department: "Finance",
     position: "Accountant",
     jobLevel: "manager",
@@ -2084,7 +2084,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP114",
     name: "Nur binti Latif",
-    email: "nur.latif@company.com",
+    email: "nur.latif@jojacorp.com",
     department: "Finance",
     position: "Finance Coordinator",
     jobLevel: "senior",
@@ -2110,7 +2110,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP115",
     name: "Koh Zhi Xuan",
-    email: "koh.zhi@company.com",
+    email: "koh.zhi@jojacorp.com",
     department: "HR",
     position: "HR Coordinator",
     jobLevel: "junior",
@@ -2136,7 +2136,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP116",
     name: "Geetha a/p Nathan",
-    email: "geetha.nathan@company.com",
+    email: "geetha.nathan@jojacorp.com",
     department: "Marketing",
     position: "Marketing Analyst",
     jobLevel: "manager",
@@ -2162,7 +2162,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP117",
     name: "Amir bin Wahab",
-    email: "amir.wahab@company.com",
+    email: "amir.wahab@jojacorp.com",
     department: "Legal",
     position: "Paralegal",
     jobLevel: "mid",
@@ -2188,7 +2188,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP118",
     name: "Khoo Ming Yu",
-    email: "khoo.ming@company.com",
+    email: "khoo.ming@jojacorp.com",
     department: "Sales",
     position: "Sales Executive",
     jobLevel: "manager",
@@ -2214,7 +2214,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP119",
     name: "Lakshmi a/p Thirunavukarasu",
-    email: "lakshmi.thirunavukarasu@company.com",
+    email: "lakshmi.thirunavukarasu@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "junior",
@@ -2240,7 +2240,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP120",
     name: "Aziz bin Abdullah",
-    email: "aziz.abdullah@company.com",
+    email: "aziz.abdullah@jojacorp.com",
     department: "Operations",
     position: "Quality Assurance Specialist",
     jobLevel: "lead",
@@ -2266,7 +2266,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP121",
     name: "Ong Liang Bao",
-    email: "ong.liang@company.com",
+    email: "ong.liang@jojacorp.com",
     department: "Operations",
     position: "Quality Assurance Specialist",
     jobLevel: "junior",
@@ -2292,7 +2292,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP122",
     name: "Nirmala a/p Nair",
-    email: "nirmala.nair@company.com",
+    email: "nirmala.nair@jojacorp.com",
     department: "Engineering",
     position: "DevOps Engineer",
     jobLevel: "senior",
@@ -2318,7 +2318,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP123",
     name: "Aziz bin Zainuddin",
-    email: "aziz.zainuddin@company.com",
+    email: "aziz.zainuddin@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "manager",
@@ -2344,7 +2344,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP124",
     name: "Yeo Yan Yun",
-    email: "yeo.yan@company.com",
+    email: "yeo.yan@jojacorp.com",
     department: "Operations",
     position: "Operations Analyst",
     jobLevel: "manager",
@@ -2370,7 +2370,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP125",
     name: "Raj a/l Nagarajan",
-    email: "raj.nagarajan@company.com",
+    email: "raj.nagarajan@jojacorp.com",
     department: "Engineering",
     position: "Backend Developer",
     jobLevel: "mid",
@@ -2396,7 +2396,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP126",
     name: "Nizar bin Razak",
-    email: "nizar.razak@company.com",
+    email: "nizar.razak@jojacorp.com",
     department: "HR",
     position: "HR Coordinator",
     jobLevel: "entry",
@@ -2422,7 +2422,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP127",
     name: "Ho Hong Mei",
-    email: "ho.hong@company.com",
+    email: "ho.hong@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "manager",
@@ -2448,7 +2448,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP128",
     name: "Ramesh a/l Maniam",
-    email: "ramesh.maniam@company.com",
+    email: "ramesh.maniam@jojacorp.com",
     department: "Sales",
     position: "Client Relations Manager",
     jobLevel: "senior",
@@ -2474,7 +2474,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP129",
     name: "Noraini binti Rahman",
-    email: "noraini.rahman@company.com",
+    email: "noraini.rahman@jojacorp.com",
     department: "Engineering",
     position: "System Administrator",
     jobLevel: "senior",
@@ -2500,7 +2500,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP130",
     name: "Pua Wei Xin",
-    email: "pua.wei@company.com",
+    email: "pua.wei@jojacorp.com",
     department: "HR",
     position: "HR Executive",
     jobLevel: "manager",
@@ -2526,7 +2526,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP131",
     name: "Dinesh a/l Balakrishnan",
-    email: "dinesh.balakrishnan@company.com",
+    email: "dinesh.balakrishnan@jojacorp.com",
     department: "Engineering",
     position: "Software Engineer",
     jobLevel: "mid",
@@ -2552,7 +2552,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP132",
     name: "Abdul bin Ghani",
-    email: "abdul.ghani@company.com",
+    email: "abdul.ghani@jojacorp.com",
     department: "Sales",
     position: "Business Development Rep",
     jobLevel: "manager",
@@ -2578,7 +2578,7 @@ export const generatedMalaysianEmployees: Employee[] = [
   {
     id: "EMP133",
     name: "Tan Fang Fang",
-    email: "tan.fang@company.com",
+    email: "tan.fang@jojacorp.com",
     department: "Marketing",
     position: "Content Strategist",
     jobLevel: "senior",

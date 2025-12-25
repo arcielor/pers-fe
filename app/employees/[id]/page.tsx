@@ -572,7 +572,7 @@ export default function EmployeeProfilePage() {
                                 />
                             ) : (
                                 <>
-                                    <div className="text-xl font-bold">${displayData.salary.toLocaleString()}</div>
+                                    <div className="text-xl font-bold">RM{displayData.salary.toLocaleString()}</div>
                                     <p className="text-xs text-muted-foreground">Annual compensation</p>
                                 </>
                             )}
