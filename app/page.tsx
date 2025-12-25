@@ -26,8 +26,10 @@ import {
   Legend,
   AreaChart,
   Area,
+  BarChart,
+  Bar,
 } from "recharts";
-import { getEmployees, getDashboardStats, getRiskDistribution } from "@/lib/data/store";
+import { getEmployees, getDashboardStats, getRiskDistribution, getTopContributingFactors, getTopRiskEmployees } from "@/lib/data/store";
 import { Employee } from "@/lib/data/types";
 
 const RISK_COLORS = {
@@ -85,6 +87,8 @@ export default function Dashboard() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [stats, setStats] = useState({ totalEmployees: 0, highRiskCount: 0, avgSatisfaction: 0, turnoverRate: 0 });
   const [distribution, setDistribution] = useState({ high: 0, medium: 0, low: 0 });
+  const [contributingFactors, setContributingFactors] = useState<{ name: string; value: number; label: string; total: number }[]>([]);
+  const [topRiskEmployees, setTopRiskEmployees] = useState<Employee[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [riskFilter, setRiskFilter] = useState<string>("all");
   const [departmentFilter, setDepartmentFilter] = useState<string>("all");
@@ -93,6 +97,8 @@ export default function Dashboard() {
     setEmployees(getEmployees());
     setStats(getDashboardStats());
     setDistribution(getRiskDistribution());
+    setContributingFactors(getTopContributingFactors());
+    setTopRiskEmployees(getTopRiskEmployees(5));
   }, []);
 
   const pieData = [
@@ -166,7 +172,115 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Charts Row */}
+        {/* Top 5 High-Risk Employees & Contributing Factors Row */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          {/* Top 5 High-Risk Employees */}
+          <Card>
+            <CardHeader className="pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <CardTitle className="text-lg font-semibold">Top 5 High-Risk Employees</CardTitle>
+                  <CardDescription>Employees with highest attrition risk</CardDescription>
+                </div>
+                <Link href="/employees?risk=high">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <AlertTriangle className="h-4 w-4" />
+                    View All
+                  </Button>
+                </Link>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {topRiskEmployees.map((employee, index) => (
+                  <div
+                    key={employee.id}
+                    className="flex items-center justify-between p-3 rounded-xl border border-border/50 bg-gradient-to-r from-red-500/5 to-transparent hover:from-red-500/10 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center h-7 w-7 rounded-full bg-red-100 text-red-600 text-sm font-bold">
+                        {index + 1}
+                      </div>
+                      <Avatar className="h-9 w-9 rounded-lg">
+                        <AvatarFallback className="rounded-lg bg-gradient-to-br from-red-500/20 to-red-500/10 text-red-600 text-xs font-semibold">
+                          {employee.name.split(" ").map((n) => n[0]).join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium text-sm">{employee.name}</p>
+                        <p className="text-xs text-muted-foreground">{employee.department}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-lg font-bold text-red-600">{employee.riskScore}%</p>
+                      <Link href={`/employees/${employee.id}`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Top Contributing Factors Chart */}
+          <Card>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold">Top 5 Contributing Factors</CardTitle>
+              <CardDescription>Employees with concerning risk scores (≥50%) by factor</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={contributingFactors}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" horizontal={true} vertical={false} />
+                    <XAxis
+                      type="number"
+                      domain={[0, contributingFactors[0]?.total || 10]}
+                      className="text-xs"
+                      axisLine={false}
+                      tickLine={false}
+                      allowDecimals={false}
+                    />
+                    <YAxis
+                      type="category"
+                      dataKey="label"
+                      className="text-xs"
+                      axisLine={false}
+                      tickLine={false}
+                      width={120}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        borderRadius: '12px',
+                        border: 'none',
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                      }}
+                      formatter={(value, name, props) => {
+                        const total = props.payload?.total || 0;
+                        return [`${value} of ${total} employees`, 'Affected'];
+                      }}
+                    />
+                    <Bar
+                      dataKey="value"
+                      fill="#f59e0b"
+                      radius={[0, 8, 8, 0]}
+                      barSize={32}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Charts Row - Risk Distribution & Trends */}
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader className="pb-4">
@@ -259,120 +373,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
-
-        {/* Employee Table */}
-        <Card>
-          <CardHeader className="pb-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <CardTitle className="text-lg font-semibold">Employee Risk Overview</CardTitle>
-                <CardDescription>Searchable list of employees with attrition risk levels</CardDescription>
-              </div>
-              <Link href="/employees">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Eye className="h-4 w-4" />
-                  View All
-                </Button>
-              </Link>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search by name, email, or department..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={riskFilter} onValueChange={setRiskFilter}>
-                <SelectTrigger className="w-full sm:w-[160px]">
-                  <SelectValue placeholder="Risk Level" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Risks</SelectItem>
-                  <SelectItem value="high">High Risk</SelectItem>
-                  <SelectItem value="medium">Medium Risk</SelectItem>
-                  <SelectItem value="low">Low Risk</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-                <SelectTrigger className="w-full sm:w-[160px]">
-                  <SelectValue placeholder="Department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Depts</SelectItem>
-                  {departments.map((dept) => (
-                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Table */}
-            <div className="rounded-xl border border-border/50 overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Employee</TableHead>
-                    <TableHead className="hidden md:table-cell">Department</TableHead>
-                    <TableHead className="hidden lg:table-cell">Position</TableHead>
-                    <TableHead>Risk Level</TableHead>
-                    <TableHead className="hidden sm:table-cell">Risk Score</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredEmployees.slice(0, 10).map((employee) => (
-                    <TableRow key={employee.id}>
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-9 w-9 rounded-lg">
-                            <AvatarFallback className="rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-xs font-semibold">
-                              {employee.name.split(" ").map((n) => n[0]).join("")}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-medium">{employee.name}</p>
-                            <p className="text-xs text-muted-foreground hidden sm:block">{employee.email}</p>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell text-muted-foreground">{employee.department}</TableCell>
-                      <TableCell className="hidden lg:table-cell text-muted-foreground">{employee.position}</TableCell>
-                      <TableCell>
-                        <Badge variant={getRiskBadgeVariant(employee.riskLevel)}>
-                          {employee.riskLevel.charAt(0).toUpperCase() + employee.riskLevel.slice(1)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell">
-                        <div className="flex items-center gap-3">
-                          <Progress value={employee.riskScore} className="w-20 h-2" />
-                          <span className="text-sm font-medium text-muted-foreground">{employee.riskScore}%</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Link href={`/employees/${employee.id}`}>
-                          <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            {filteredEmployees.length === 0 && (
-              <div className="text-center py-12 text-muted-foreground">
-                No employees found matching your criteria.
-              </div>
-            )}
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

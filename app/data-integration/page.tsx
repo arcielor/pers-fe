@@ -10,14 +10,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Upload, FileSpreadsheet, CheckCircle, XCircle, AlertCircle, Database, Plus, FileUp, Trash2 } from "lucide-react";
-import { getImports, addImport, addEmployee } from "@/lib/data/store";
-import { HRISImport, Employee, RiskLevel } from "@/lib/data/types";
+import { getImports, addImport, addEmployee, deleteImport } from "@/lib/data/store";
+import { HRISImport, Employee, RiskLevel, JobLevel } from "@/lib/data/types";
 
 export default function DataIntegrationPage() {
     const [imports, setImports] = useState<HRISImport[]>([]);
     const [isDragging, setIsDragging] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
+    const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
     // Manual form state
     const [formData, setFormData] = useState({
@@ -25,8 +26,11 @@ export default function DataIntegrationPage() {
         email: "",
         department: "",
         position: "",
+        jobLevel: "mid" as JobLevel,
         salary: "",
         hireDate: "",
+        totalWorkingHours: "",
+        previousCompanies: "",
     });
 
     useEffect(() => {
@@ -35,6 +39,12 @@ export default function DataIntegrationPage() {
 
     const refreshData = () => {
         setImports(getImports());
+    };
+
+    const handleDeleteImport = (importId: string) => {
+        deleteImport(importId);
+        setDeleteConfirmId(null);
+        refreshData();
     };
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -101,12 +111,15 @@ export default function DataIntegrationPage() {
             email: formData.email,
             department: formData.department,
             position: formData.position,
+            jobLevel: formData.jobLevel,
             salary: parseInt(formData.salary) || 50000,
             hireDate: formData.hireDate || new Date().toISOString().split("T")[0],
             riskScore,
             riskLevel,
             satisfactionScore: Math.floor(Math.random() * 40) + 60,
             overtimeHours: Math.floor(Math.random() * 20),
+            totalWorkingHours: parseInt(formData.totalWorkingHours) || 160,
+            previousCompanies: parseInt(formData.previousCompanies) || 0,
             lastPromotionDate: null,
             performanceRating: 3.5 + Math.random() * 1.5,
             avatar: "",
@@ -125,8 +138,11 @@ export default function DataIntegrationPage() {
             email: "",
             department: "",
             position: "",
+            jobLevel: "mid" as JobLevel,
             salary: "",
             hireDate: "",
+            totalWorkingHours: "",
+            previousCompanies: "",
         });
 
         alert("Employee added successfully!");
@@ -278,6 +294,7 @@ export default function DataIntegrationPage() {
                                                 <TableHead className="hidden sm:table-cell">Date</TableHead>
                                                 <TableHead>Records</TableHead>
                                                 <TableHead>Status</TableHead>
+                                                <TableHead className="text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -294,6 +311,36 @@ export default function DataIntegrationPage() {
                                                     </TableCell>
                                                     <TableCell>{importRecord.recordCount.toLocaleString()}</TableCell>
                                                     <TableCell>{getStatusBadge(importRecord.status)}</TableCell>
+                                                    <TableCell className="text-right">
+                                                        {deleteConfirmId === importRecord.id ? (
+                                                            <div className="flex items-center justify-end gap-2">
+                                                                <span className="text-sm text-muted-foreground">Delete?</span>
+                                                                <Button
+                                                                    variant="destructive"
+                                                                    size="sm"
+                                                                    onClick={() => handleDeleteImport(importRecord.id)}
+                                                                >
+                                                                    Yes
+                                                                </Button>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="sm"
+                                                                    onClick={() => setDeleteConfirmId(null)}
+                                                                >
+                                                                    No
+                                                                </Button>
+                                                            </div>
+                                                        ) : (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                onClick={() => setDeleteConfirmId(importRecord.id)}
+                                                                className="text-muted-foreground hover:text-destructive"
+                                                            >
+                                                                <Trash2 className="h-4 w-4" />
+                                                            </Button>
+                                                        )}
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -355,6 +402,23 @@ export default function DataIntegrationPage() {
                                             />
                                         </div>
                                         <div className="space-y-2">
+                                            <label className="text-sm font-medium">Job Level</label>
+                                            <select
+                                                className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                                value={formData.jobLevel}
+                                                onChange={(e) => setFormData({ ...formData, jobLevel: e.target.value as JobLevel })}
+                                            >
+                                                <option value="entry">Entry</option>
+                                                <option value="junior">Junior</option>
+                                                <option value="mid">Mid</option>
+                                                <option value="senior">Senior</option>
+                                                <option value="lead">Lead</option>
+                                                <option value="manager">Manager</option>
+                                                <option value="director">Director</option>
+                                                <option value="executive">Executive</option>
+                                            </select>
+                                        </div>
+                                        <div className="space-y-2">
                                             <label className="text-sm font-medium">Salary</label>
                                             <Input
                                                 type="number"
@@ -369,6 +433,25 @@ export default function DataIntegrationPage() {
                                                 type="date"
                                                 value={formData.hireDate}
                                                 onChange={(e) => setFormData({ ...formData, hireDate: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium">Total Working Hours (monthly)</label>
+                                            <Input
+                                                type="number"
+                                                placeholder="160"
+                                                value={formData.totalWorkingHours}
+                                                onChange={(e) => setFormData({ ...formData, totalWorkingHours: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium">Previous Companies</label>
+                                            <Input
+                                                type="number"
+                                                placeholder="0"
+                                                min="0"
+                                                value={formData.previousCompanies}
+                                                onChange={(e) => setFormData({ ...formData, previousCompanies: e.target.value })}
                                             />
                                         </div>
                                     </div>

@@ -77,13 +77,13 @@ export function Sidebar() {
                     <SheetContent side="left" className="w-72 p-0 border-r border-sidebar-border">
                         <div className="flex h-full flex-col bg-sidebar">
                             {/* Logo */}
-                            <div className="flex h-[72px] items-center gap-3 border-b border-sidebar-border px-6">
+                            <div className="flex h-[72px] items-center gap-3 border-b border-sidebar-border px-4">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/25">
                                     <Activity className="h-5 w-5 text-primary-foreground" />
                                 </div>
                                 <div>
                                     <span className="text-lg font-bold tracking-tight text-foreground">PERS</span>
-                                    <p className="text-xs text-muted-foreground">Employee Retention</p>
+                                    <p className="text-xs text-muted-foreground">Predictive Employee Retention System</p>
                                 </div>
                             </div>
 
@@ -92,15 +92,7 @@ export function Sidebar() {
                                 <NavLinks onNavigate={() => setOpen(false)} />
                             </div>
 
-                            {/* Footer */}
-                            <div className="border-t border-sidebar-border p-4">
-                                <div className="rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 p-4">
-                                    <p className="text-sm font-semibold text-foreground">Predictive Analytics</p>
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        AI-powered retention insights
-                                    </p>
-                                </div>
-                            </div>
+
                         </div>
                     </SheetContent>
                 </Sheet>
@@ -114,7 +106,7 @@ export function Sidebar() {
                 {/* Logo */}
                 <div className={cn(
                     "flex h-[72px] items-center border-b border-sidebar-border",
-                    collapsed ? "justify-center px-2" : "gap-3 px-6"
+                    collapsed ? "justify-center px-2" : "gap-3 px-4"
                 )}>
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/25">
                         <Activity className="h-5 w-5 text-primary-foreground" />
@@ -122,7 +114,7 @@ export function Sidebar() {
                     {!collapsed && (
                         <div>
                             <span className="text-lg font-bold tracking-tight text-foreground">PERS</span>
-                            <p className="text-xs text-muted-foreground">Employee Retention</p>
+                            <p className="text-xs text-muted-foreground">Predictive Employee Retention System</p>
                         </div>
                     )}
                 </div>
@@ -134,14 +126,6 @@ export function Sidebar() {
 
                 {/* Footer with collapse toggle */}
                 <div className="border-t border-sidebar-border p-3">
-                    {!collapsed && (
-                        <div className="rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 p-4 mb-3">
-                            <p className="text-sm font-semibold text-foreground">Predictive Analytics</p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                AI-powered retention insights
-                            </p>
-                        </div>
-                    )}
                     <Button
                         variant="ghost"
                         size="sm"

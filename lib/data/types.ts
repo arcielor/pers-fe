@@ -8,18 +8,23 @@ export interface RiskFactors {
     workLifeBalance: number;
 }
 
+export type JobLevel = "entry" | "junior" | "mid" | "senior" | "lead" | "manager" | "director" | "executive";
+
 export interface Employee {
     id: string;
     name: string;
     email: string;
     department: string;
     position: string;
+    jobLevel: JobLevel;
     hireDate: string;
     salary: number;
     riskScore: number;
     riskLevel: RiskLevel;
     satisfactionScore: number;
     overtimeHours: number;
+    totalWorkingHours: number;
+    previousCompanies: number;
     lastPromotionDate: string | null;
     performanceRating: number;
     avatar: string;
