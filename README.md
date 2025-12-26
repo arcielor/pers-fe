@@ -1,86 +1,114 @@
-Here are **clean, npm-only instructions** to run **`pers-fe` locally on Antigravity** (or any local machine).
+# 🛡️ Be Scam Ready
+
+**An Interactive Scam Awareness Game for Malaysian Employees**
+
+## 📌 Overview
+
+**Be Scam Ready** is an interactive scam awareness game designed to help users identify and respond to common online scams faced in the workplace. Through realistic email-based scenarios, players learn to recognise social engineering tactics such as urgency, authority abuse, impersonation, and fear-based manipulation in a safe, simulated environment.
+
+The game focuses on **Malaysian workplace scam patterns**, including fake HR emails, boss impersonation, LHDN tax scams, courier scams, and phishing attacks.
 
 ---
 
-## ✅ Prerequisites
+## 🎯 Objectives
 
-Make sure you have:
-
-* **Node.js (v18 or later)**
-  Check with:
-
-  ```bash
-  node -v
-  ```
-* **npm** (comes with Node.js)
+* Increase awareness of common workplace scams in Malaysia
+* Train users to identify red flags in emails and digital communication
+* Encourage critical thinking before clicking links or sharing sensitive information
+* Provide a safe environment to learn from mistakes
 
 ---
 
-## 🚀 Steps to Run `pers-fe` Locally (Using npm)
+## 🕹️ Gameplay Concept
 
-### 1️⃣ Clone the Repository
+Players are presented with a series of work-related emails and must decide whether each email is:
 
-```bash
-git clone https://github.com/arcielor/pers-fe.git
-cd pers-fe
-```
+* **Scam** ❌
+* **Legitimate (Safe)** ✅
 
----
+Immediate feedback is provided after each decision, explaining:
 
-### 2️⃣ Install Dependencies (npm only)
-
-```bash
-npm install
-```
-
-This will install all required packages listed in `package.json`.
+* Why the email is a scam or safe
+* The psychological manipulation techniques used
+* Key warning signs to look out for
 
 ---
 
-### 3️⃣ Start the Development Server
+## 📧 Email Scenarios
 
-```bash
-npm run dev
-```
+The game includes:
 
----
+* **15 Scam Emails**
+* **15 Legitimate Work Emails**
 
-### 4️⃣ Open the App
+### Scam Examples:
 
-Once the server starts, open your browser and go to:
+* Boss / Managing Director impersonation
+* Fake IT password reset emails
+* Payroll and salary update scams
+* LHDN tax refund scams
+* Fake courier (DHL) notifications
+* Urgent bank transfer requests
 
-```
-http://localhost:3000
-```
+### Safe Email Examples:
 
-You should now see the PERS frontend running locally 🎉
+* HR announcements
+* Payslip notifications
+* System maintenance notices
+* Training invitations
+* Team meetings and office events
 
----
-
-## 🧠 Running in **Antigravity**
-
-1. Open **Antigravity**
-2. Open the `pers-fe` project folder
-3. Open the **integrated terminal**
-4. Run:
-
-   ```bash
-   npm install
-   npm run dev
-   ```
-5. Access the app via `http://localhost:3000`
-
-Antigravity works similarly to VS Code, so no extra configuration is needed.
+All emails are written in **realistic Malaysian office English** to improve authenticity.
 
 ---
 
-## 🛠 Optional: Environment Variables
+## 🧠 Learning Outcomes
 
-If the app later requires backend URLs or API keys:
+After playing the game, users should be able to:
 
-* Create a file named:
+* Spot suspicious email domains and links
+* Recognise urgency and fear tactics
+* Identify impersonation attempts
+* Avoid sharing sensitive information
+* Develop safer digital habits at work
 
-  ```
-  .env.local
-  ```
-* Add required variables (if any)
+---
+
+## 🛠️ Tech Stack
+
+* **Language:** Lua
+* **Game Type:** Interactive simulation / decision-based game
+* **Data Structure:** Email dataset stored in Lua tables
+* **Platform:** Game engine–agnostic (can be adapted for web or desktop)
+
+---
+
+## 📈 Future Improvements
+
+* Difficulty levels (Easy / Medium / Hard)
+* WhatsApp & Microsoft Teams scam scenarios
+* Scoring system with badges and achievements
+* Analytics dashboard for learning progress
+* Localization for Bahasa Malaysia
+
+---
+
+## 👥 Target Users
+
+* Office employees
+* University students
+* Corporate cybersecurity training programs
+* Scam awareness campaigns
+
+---
+
+## 🏆 Motivation
+
+This project was developed to address the increasing number of workplace scams in Malaysia and to promote better cybersecurity awareness through **gamified learning** rather than traditional lectures.
+
+---
+
+## 📜 License
+
+This project is for educational purposes.
+Feel free to use, modify, and adapt with proper credit.
