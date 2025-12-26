@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Here are **clean, npm-only instructions** to run **`pers-fe` locally on Antigravity** (or any local machine).
 
-## Getting Started
+---
 
-First, run the development server:
+## ✅ Prerequisites
+
+Make sure you have:
+
+* **Node.js (v18 or later)**
+  Check with:
+
+  ```bash
+  node -v
+  ```
+* **npm** (comes with Node.js)
+
+---
+
+## 🚀 Steps to Run `pers-fe` Locally (Using npm)
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/arcielor/pers-fe.git
+cd pers-fe
+```
+
+---
+
+### 2️⃣ Install Dependencies (npm only)
+
+```bash
+npm install
+```
+
+This will install all required packages listed in `package.json`.
+
+---
+
+### 3️⃣ Start the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4️⃣ Open the App
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Once the server starts, open your browser and go to:
 
-## Learn More
+```
+http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+You should now see the PERS frontend running locally 🎉
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧠 Running in **Antigravity**
 
-## Deploy on Vercel
+1. Open **Antigravity**
+2. Open the `pers-fe` project folder
+3. Open the **integrated terminal**
+4. Run:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm install
+   npm run dev
+   ```
+5. Access the app via `http://localhost:3000`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Antigravity works similarly to VS Code, so no extra configuration is needed.
+
+---
+
+## 🛠 Optional: Environment Variables
+
+If the app later requires backend URLs or API keys:
+
+* Create a file named:
+
+  ```
+  .env.local
+  ```
+* Add required variables (if any)
