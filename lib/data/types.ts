@@ -77,6 +77,31 @@ export interface ModelMetrics {
     version: string;
     trainingDataSize: number;
     history: MetricHistory[];
+    // New fields for RF/ETC models
+    models?: AttritionModelInfo[];
+    activeModel?: string;
+}
+
+// Feature importances from ML models
+export interface FeatureImportances {
+    overtime: number;
+    compensation: number;
+    satisfaction: number;
+    growth: number;
+    workLifeBalance: number;
+}
+
+// Individual attrition prediction model info
+export interface AttritionModelInfo {
+    name: string;
+    accuracy: number;
+    precision: number;
+    recall: number;
+    f1Score: number;
+    rocAuc: number;
+    nEstimators: number;
+    maxDepth: number;
+    featureImportances: FeatureImportances;
 }
 
 export interface HRISImport {
