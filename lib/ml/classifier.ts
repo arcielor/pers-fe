@@ -26,7 +26,7 @@ const TRAINING_DATA: Record<DocumentCategory, string[]> = {
         "employee", "employees", "staff", "personnel", "workforce", "worker", "workers",
         "hire", "hiring", "onboarding", "headcount", "roster", "directory", "contact",
         "department", "position", "role", "job", "title", "salary", "compensation",
-        "hr", "attrition", "retention", "
+       "hr", "hris", "attrition", "turnover", "retention"
     ],
     performance_review: [
         "performance", "review", "evaluation", "assessment", "appraisal", "rating",
