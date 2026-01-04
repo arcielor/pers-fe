@@ -203,7 +203,7 @@ class NaiveBayesClassifier {
             bestCategory = "other";
             bestProbability = 0.25;
             categories.forEach(cat => {
-                probabilities[cat] = cat === "other" ? 1.0 : 0;
+                probabilities[cat] = cat === "other" ? 0.25 : 0;
             });
         }
 
