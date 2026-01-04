@@ -201,7 +201,7 @@ class NaiveBayesClassifier {
         // If best probability is too low or features are empty, classify as "other"
         if (features.length === 0 || bestProbability < 0.2) {
             bestCategory = "other";
-            bestProbability = 1.0;
+            bestProbability = 0.25;
             categories.forEach(cat => {
                 probabilities[cat] = cat === "other" ? 1.0 : 0;
             });
