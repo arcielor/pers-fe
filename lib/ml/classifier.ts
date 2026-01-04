@@ -25,7 +25,8 @@ const TRAINING_DATA: Record<DocumentCategory, string[]> = {
     employee_data: [
         "employee", "employees", "staff", "personnel", "workforce", "worker", "workers",
         "hire", "hiring", "onboarding", "headcount", "roster", "directory", "contact",
-        "department", "position", "role", "job", "title", "salary", "compensation"
+        "department", "position", "role", "job", "title", "salary", "compensation",
+        "hr", "attrition", "retention", "
     ],
     performance_review: [
         "performance", "review", "evaluation", "assessment", "appraisal", "rating",
@@ -80,6 +81,8 @@ class NaiveBayesClassifier {
     private wordLikelihoods: Record<DocumentCategory, Record<string, number>>;
     private vocabulary: Set<string>;
     private smoothingFactor: number = 1; // Laplace smoothing
+    private temperature: number = 0.5; // Lower = sharper confidence (more decisive)
+
 
     constructor() {
         this.categoryPriors = {} as Record<DocumentCategory, number>;
@@ -178,7 +181,8 @@ class NaiveBayesClassifier {
         let sumExpProbs = 0;
 
         categories.forEach(category => {
-            expProbs[category] = Math.exp(logProbabilities[category] - maxLogProb);
+              // Divide by temperature: lower temp = sharper distribution
+            expProbs[category] = Math.exp((logProbabilities[category] - maxLogProb) / this.temperature);
             sumExpProbs += expProbs[category];
         });
 
